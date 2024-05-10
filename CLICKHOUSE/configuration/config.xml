@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+    <property>
+        <name>cluster_name</name>
+        <display-name>cluster_name</display-name>
+        <value>clickhouse_cluster</value>
+        <description>集群名称</description>
+    </property>
+    <property>
+        <name>listen_host</name>
+        <display-name>listen_host</display-name>
+        <value>::</value>
+    </property>
+    <property>
+        <name>http_port</name>
+        <display-name>http_port</display-name>
+        <value>8123</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>tcp_port</name>
+        <display-name>tcp_port</display-name>
+        <value>9000</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>mysql_port</name>
+        <display-name>mysql_port</display-name>
+        <value>9004</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>postgresql_port</name>
+        <display-name>postgresql_port</display-name>
+        <value>9005</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>interserver_http_port</name>
+        <display-name>interserver_http_port</display-name>
+        <value>9009</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_connections</name>
+        <display-name>max_connections</display-name>
+        <value>4096</value>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>auto_remote_servers</name>
+        <display-name>auto_remote_servers</display-name>
+        <value>true</value>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+        <description>自动设置集群分片,集群默认副本为2,分片为安装clickhouse数量,该值为True时,remote_servers参数失效</description>
+    </property>
+    <property>
+        <name>clickhouse.path</name>
+        <display-name>path</display-name>
+        <value>/var/lib/clickhouse/</value>
+        <description>数据文件存储路径</description>
+    </property>
+    <property>
+        <name>clickhouse.log</name>
+        <display-name>log</display-name>
+        <value>/var/log/clickhouse-server/clickhouse-server.log</value>
+        <description>日志文件路径</description>
+    </property>
+    <property>
+        <name>clickhouse.error.log</name>
+        <display-name>errorlog</display-name>
+        <value>/var/log/clickhouse-server/clickhouse-server.err.log</value>
+        <description>错误日志文件路径</description>
+    </property>
+    <property>
+        <name>remote_servers</name>
+        <display-name>remote_servers</display-name>
+        <value>
+        &lt;ck_cluster_1&gt;
+            &lt;!-- 集群名称--&gt;
+            &lt;shard&gt;
+                &lt;!--集群的第一个分片--&gt;
+              	&lt;weight&gt;1&lt;/weight&gt;
+                &lt;internal_replication&gt;true&lt;/internal_replication&gt;
+                &lt;replica&gt;
+                    &lt;!--该分片的第一个副本--&gt;
+                    &lt;host&gt;172.16.24.174&lt;/host&gt;
+                    &lt;port&gt;9000&lt;/port&gt;
+                &lt;/replica&gt;
+                &lt;replica&gt;
+                    &lt;!--该分片的第二个副本--&gt;
+                    &lt;host&gt;172.16.24.175&lt;/host&gt;
+                    &lt;port&gt;9000&lt;/port&gt;
+                &lt;/replica&gt;
+            &lt;/shard&gt;
+            &lt;shard&gt;
+                &lt;!--集群的第二个分片--&gt;
+               	&lt;weight&gt;1&lt;/weight&gt;
+                &lt;internal_replication&gt;true&lt;/internal_replication&gt;
+                &lt;replica&gt;
+                    &lt;!--该分片的第一个副本--&gt;
+                    &lt;host&gt;172.16.24.176&lt;/host&gt;
+                    &lt;port&gt;9000&lt;/port&gt;
+                &lt;/replica&gt;
+            &lt;/shard&gt;
+        &lt;/ck_cluster_1&gt;
+        </value>
+        <value-attributes>
+            <type>content</type>
+        </value-attributes>
+    </property>
+
+
+    <property>
+        <name>content</name>
+        <display-name>Clickhouse config file template</display-name>
+        <description>This is the template for elasticsearch.yml file</description>
+        <value>
+&lt;clickhouse&gt;
+    &lt;logger&gt;
+
+        &lt;level&gt;trace&lt;/level&gt;
+        &lt;log&gt;{{clickhouse_log}}&lt;/log&gt;
+        &lt;errorlog&gt;{{clickhouse_error_log}}&lt;/errorlog&gt;
+        &lt;size&gt;1000M&lt;/size&gt;
+        &lt;count&gt;10&lt;/count&gt;
+    &lt;/logger&gt;
+
+    &lt;url_scheme_mappers&gt;
+        &lt;s3&gt;
+            &lt;to&gt;https://{bucket}.s3.amazonaws.com&lt;/to&gt;
+        &lt;/s3&gt;
+        &lt;gs&gt;
+            &lt;to&gt;https://{bucket}.storage.googleapis.com&lt;/to&gt;
+        &lt;/gs&gt;
+        &lt;oss&gt;
+            &lt;to&gt;https://{bucket}.oss.aliyuncs.com&lt;/to&gt;
+        &lt;/oss&gt;
+    &lt;/url_scheme_mappers&gt;
+
+    &lt;http_options_response&gt;
+        &lt;header&gt;
+            &lt;name&gt;Access-Control-Allow-Origin&lt;/name&gt;
+            &lt;value&gt;*&lt;/value&gt;
+        &lt;/header&gt;
+        &lt;header&gt;
+            &lt;name&gt;Access-Control-Allow-Headers&lt;/name&gt;
+            &lt;value&gt;origin, x-requested-with, x-clickhouse-format, x-clickhouse-user, x-clickhouse-key, Authorization&lt;/value&gt;
+        &lt;/header&gt;
+        &lt;header&gt;
+            &lt;name&gt;Access-Control-Allow-Methods&lt;/name&gt;
+            &lt;value&gt;POST, GET, OPTIONS&lt;/value&gt;
+        &lt;/header&gt;
+        &lt;header&gt;
+            &lt;name&gt;Access-Control-Max-Age&lt;/name&gt;
+            &lt;value&gt;86400&lt;/value&gt;
+        &lt;/header&gt;
+    &lt;/http_options_response&gt;
+    &lt;listen_host&gt;{{listen_host}}&lt;/listen_host&gt;
+    &lt;http_port&gt;{{http_port}}&lt;/http_port&gt;
+
+    &lt;tcp_port&gt;{{tcp_port}}&lt;/tcp_port&gt;
+
+    &lt;mysql_port&gt;{{mysql_port}}&lt;/mysql_port&gt;
+
+    &lt;postgresql_port&gt;{{postgresql_port}}&lt;/postgresql_port&gt;
+
+    &lt;interserver_http_port&gt;{{interserver_http_port}}&lt;/interserver_http_port&gt;
+
+    &lt;max_connections&gt;{{max_connections}}&lt;/max_connections&gt;
+
+    &lt;keep_alive_timeout&gt;10&lt;/keep_alive_timeout&gt;
+    &lt;grpc&gt;
+        &lt;enable_ssl&gt;false&lt;/enable_ssl&gt;
+        &lt;ssl_cert_file&gt;/path/to/ssl_cert_file&lt;/ssl_cert_file&gt;
+        &lt;ssl_key_file&gt;/path/to/ssl_key_file&lt;/ssl_key_file&gt;
+        &lt;ssl_require_client_auth&gt;false&lt;/ssl_require_client_auth&gt;
+        &lt;ssl_ca_cert_file&gt;/path/to/ssl_ca_cert_file&lt;/ssl_ca_cert_file&gt;
+        &lt;transport_compression_type&gt;none&lt;/transport_compression_type&gt;
+        &lt;transport_compression_level&gt;0&lt;/transport_compression_level&gt;
+        &lt;max_send_message_size&gt;-1&lt;/max_send_message_size&gt;
+        &lt;max_receive_message_size&gt;-1&lt;/max_receive_message_size&gt;
+        &lt;verbose_logs&gt;false&lt;/verbose_logs&gt;
+    &lt;/grpc&gt;
+
+
+    &lt;openSSL&gt;
+        &lt;server&gt;
+            &lt;verificationMode&gt;none&lt;/verificationMode&gt;
+            &lt;loadDefaultCAFile&gt;true&lt;/loadDefaultCAFile&gt;
+            &lt;cacheSessions&gt;true&lt;/cacheSessions&gt;
+            &lt;disableProtocols&gt;sslv2,sslv3&lt;/disableProtocols&gt;
+            &lt;preferServerCiphers&gt;true&lt;/preferServerCiphers&gt;
+            &lt;invalidCertificateHandler&gt;
+                &lt;name&gt;RejectCertificateHandler&lt;/name&gt;
+            &lt;/invalidCertificateHandler&gt;
+        &lt;/server&gt;
+
+        &lt;client&gt;
+            &lt;loadDefaultCAFile&gt;true&lt;/loadDefaultCAFile&gt;
+            &lt;cacheSessions&gt;true&lt;/cacheSessions&gt;
+            &lt;disableProtocols&gt;sslv2,sslv3&lt;/disableProtocols&gt;
+            &lt;preferServerCiphers&gt;true&lt;/preferServerCiphers&gt;
+            &lt;invalidCertificateHandler&gt;
+                &lt;name&gt;RejectCertificateHandler&lt;/name&gt;
+            &lt;/invalidCertificateHandler&gt;
+        &lt;/client&gt;
+    &lt;/openSSL&gt;
+
+    &lt;concurrent_threads_soft_limit_num&gt;0&lt;/concurrent_threads_soft_limit_num&gt;
+    &lt;concurrent_threads_soft_limit_ratio_to_cores&gt;2&lt;/concurrent_threads_soft_limit_ratio_to_cores&gt;
+
+    &lt;max_concurrent_queries&gt;1000&lt;/max_concurrent_queries&gt;
+    &lt;max_server_memory_usage&gt;0&lt;/max_server_memory_usage&gt;
+    &lt;max_thread_pool_size&gt;10000&lt;/max_thread_pool_size&gt;
+    &lt;max_server_memory_usage_to_ram_ratio&gt;0.9&lt;/max_server_memory_usage_to_ram_ratio&gt;
+    &lt;total_memory_profiler_step&gt;4194304&lt;/total_memory_profiler_step&gt;
+    &lt;total_memory_tracker_sample_probability&gt;0&lt;/total_memory_tracker_sample_probability&gt;
+    &lt;uncompressed_cache_size&gt;8589934592&lt;/uncompressed_cache_size&gt;
+    &lt;mark_cache_size&gt;5368709120&lt;/mark_cache_size&gt;
+    &lt;index_mark_cache_size&gt;5368709120&lt;/index_mark_cache_size&gt;
+    &lt;mmap_cache_size&gt;1000&lt;/mmap_cache_size&gt;
+    &lt;compiled_expression_cache_size&gt;134217728&lt;/compiled_expression_cache_size&gt;
+    &lt;compiled_expression_cache_elements_size&gt;10000&lt;/compiled_expression_cache_elements_size&gt;
+    &lt;custom_cached_disks_base_directory&gt;/var/lib/clickhouse/caches/&lt;/custom_cached_disks_base_directory&gt;
+    &lt;validate_tcp_client_information&gt;false&lt;/validate_tcp_client_information&gt;
+    &lt;path&gt;{{path}}&lt;/path&gt;
+    &lt;tmp_path&gt;/var/lib/clickhouse/tmp/&lt;/tmp_path&gt;
+    &lt;allow_plaintext_password&gt;1&lt;/allow_plaintext_password&gt;
+    &lt;allow_no_password&gt;1&lt;/allow_no_password&gt;
+    &lt;allow_implicit_no_password&gt;1&lt;/allow_implicit_no_password&gt;
+    &lt;default_password_type&gt;sha256_password&lt;/default_password_type&gt;
+    &lt;bcrypt_workfactor&gt;12&lt;/bcrypt_workfactor&gt;
+    &lt;user_files_path&gt;/var/lib/clickhouse/user_files/&lt;/user_files_path&gt;
+    &lt;ldap_servers&gt;
+    &lt;/ldap_servers&gt;
+    &lt;user_directories&gt;
+        &lt;users_xml&gt;
+            &lt;path&gt;users.xml&lt;/path&gt;
+        &lt;/users_xml&gt;
+        &lt;local_directory&gt;
+            &lt;path&gt;/var/lib/clickhouse/access/&lt;/path&gt;
+        &lt;/local_directory&gt;
+    &lt;/user_directories&gt;
+    &lt;access_control_improvements&gt;
+        &lt;users_without_row_policies_can_read_rows&gt;true&lt;/users_without_row_policies_can_read_rows&gt;
+        &lt;on_cluster_queries_require_cluster_grant&gt;true&lt;/on_cluster_queries_require_cluster_grant&gt;
+        &lt;select_from_system_db_requires_grant&gt;true&lt;/select_from_system_db_requires_grant&gt;
+        &lt;select_from_information_schema_requires_grant&gt;true&lt;/select_from_information_schema_requires_grant&gt;
+        &lt;settings_constraints_replace_previous&gt;true&lt;/settings_constraints_replace_previous&gt;
+        &lt;role_cache_expiration_time_seconds&gt;600&lt;/role_cache_expiration_time_seconds&gt;
+    &lt;/access_control_improvements&gt;
+    &lt;default_profile&gt;default&lt;/default_profile&gt;
+    &lt;custom_settings_prefixes&gt;SQL_&lt;/custom_settings_prefixes&gt;
+    &lt;default_database&gt;default&lt;/default_database&gt;
+    &lt;mlock_executable&gt;true&lt;/mlock_executable&gt;
+    &lt;remap_executable&gt;false&lt;/remap_executable&gt;
+    &lt;remote_servers&gt;
+    {{remote_servers}}
+    &lt;/remote_servers&gt;
+    &lt;builtin_dictionaries_reload_interval&gt;3600&lt;/builtin_dictionaries_reload_interval&gt;
+    &lt;max_session_timeout&gt;3600&lt;/max_session_timeout&gt;
+    &lt;default_session_timeout&gt;60&lt;/default_session_timeout&gt;
+
+    &lt;query_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;query_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/query_log&gt;
+
+    &lt;trace_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;trace_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/trace_log&gt;
+
+    &lt;query_thread_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;query_thread_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/query_thread_log&gt;
+
+    &lt;query_views_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;query_views_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+    &lt;/query_views_log&gt;
+
+    &lt;part_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;part_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/part_log&gt;
+
+    &lt;metric_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;metric_log&lt;/table&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;collect_interval_milliseconds&gt;1000&lt;/collect_interval_milliseconds&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/metric_log&gt;
+
+    &lt;asynchronous_metric_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;asynchronous_metric_log&lt;/table&gt;
+        &lt;flush_interval_milliseconds&gt;7000&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/asynchronous_metric_log&gt;
+
+    &lt;opentelemetry_span_log&gt;
+
+        &lt;engine&gt;
+            engine MergeTree
+            partition by toYYYYMM(finish_date)
+            order by (finish_date, finish_time_us, trace_id)
+        &lt;/engine&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;opentelemetry_span_log&lt;/table&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/opentelemetry_span_log&gt;
+
+    &lt;crash_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;crash_log&lt;/table&gt;
+        &lt;partition_by /&gt;
+        &lt;flush_interval_milliseconds&gt;1000&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1024&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;1024&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;512&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;true&lt;/flush_on_crash&gt;
+    &lt;/crash_log&gt;
+
+    &lt;processors_profile_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;processors_profile_log&lt;/table&gt;
+
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+    &lt;/processors_profile_log&gt;
+
+    &lt;asynchronous_insert_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;asynchronous_insert_log&lt;/table&gt;
+
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;max_size_rows&gt;1048576&lt;/max_size_rows&gt;
+        &lt;reserved_size_rows&gt;8192&lt;/reserved_size_rows&gt;
+        &lt;buffer_size_rows_flush_threshold&gt;524288&lt;/buffer_size_rows_flush_threshold&gt;
+        &lt;flush_on_crash&gt;false&lt;/flush_on_crash&gt;
+        &lt;partition_by&gt;event_date&lt;/partition_by&gt;
+        &lt;ttl&gt;event_date + INTERVAL 3 DAY&lt;/ttl&gt;
+    &lt;/asynchronous_insert_log&gt;
+
+    &lt;backup_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;backup_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+    &lt;/backup_log&gt;
+
+    &lt;s3queue_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;s3queue_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+    &lt;/s3queue_log&gt;
+
+    &lt;blob_storage_log&gt;
+        &lt;database&gt;system&lt;/database&gt;
+        &lt;table&gt;blob_storage_log&lt;/table&gt;
+        &lt;partition_by&gt;toYYYYMM(event_date)&lt;/partition_by&gt;
+        &lt;flush_interval_milliseconds&gt;7500&lt;/flush_interval_milliseconds&gt;
+        &lt;ttl&gt;event_date + INTERVAL 30 DAY&lt;/ttl&gt;
+    &lt;/blob_storage_log&gt;
+
+    &lt;top_level_domains_lists&gt;
+    &lt;/top_level_domains_lists&gt;
+    &lt;dictionaries_config&gt;*_dictionary.*ml&lt;/dictionaries_config&gt;
+    &lt;dictionaries_lazy_load&gt;true&lt;/dictionaries_lazy_load&gt;
+    &lt;wait_dictionaries_load_at_startup&gt;true&lt;/wait_dictionaries_load_at_startup&gt;
+    &lt;user_defined_executable_functions_config&gt;*_function.*ml&lt;/user_defined_executable_functions_config&gt;
+    &lt;encryption_codecs&gt;
+    &lt;/encryption_codecs&gt;
+
+    &lt;distributed_ddl&gt;
+        &lt;path&gt;/clickhouse/task_queue/ddl&lt;/path&gt;
+    &lt;/distributed_ddl&gt;
+
+    &lt;graphite_rollup_example&gt;
+        &lt;pattern&gt;
+            &lt;regexp&gt;click_cost&lt;/regexp&gt;
+            &lt;function&gt;any&lt;/function&gt;
+            &lt;retention&gt;
+                &lt;age&gt;0&lt;/age&gt;
+                &lt;precision&gt;3600&lt;/precision&gt;
+            &lt;/retention&gt;
+            &lt;retention&gt;
+                &lt;age&gt;86400&lt;/age&gt;
+                &lt;precision&gt;60&lt;/precision&gt;
+            &lt;/retention&gt;
+        &lt;/pattern&gt;
+        &lt;default&gt;
+            &lt;function&gt;max&lt;/function&gt;
+            &lt;retention&gt;
+                &lt;age&gt;0&lt;/age&gt;
+                &lt;precision&gt;60&lt;/precision&gt;
+            &lt;/retention&gt;
+            &lt;retention&gt;
+                &lt;age&gt;3600&lt;/age&gt;
+                &lt;precision&gt;300&lt;/precision&gt;
+            &lt;/retention&gt;
+            &lt;retention&gt;
+                &lt;age&gt;86400&lt;/age&gt;
+                &lt;precision&gt;3600&lt;/precision&gt;
+            &lt;/retention&gt;
+        &lt;/default&gt;
+    &lt;/graphite_rollup_example&gt;
+    &lt;format_schema_path&gt;/var/lib/clickhouse/format_schemas/&lt;/format_schema_path&gt;
+    &lt;google_protos_path&gt;/usr/share/clickhouse/protos/&lt;/google_protos_path&gt;
+    &lt;send_crash_reports&gt;
+        &lt;enabled&gt;false&lt;/enabled&gt;
+        &lt;anonymize&gt;false&lt;/anonymize&gt;
+        &lt;endpoint&gt;https://6f33034cfe684dd7a3ab9875e57b1c8d@o388870.ingest.sentry.io/5226277&lt;/endpoint&gt;
+    &lt;/send_crash_reports&gt;
+
+    &lt;query_cache&gt;
+        &lt;max_size_in_bytes&gt;1073741824&lt;/max_size_in_bytes&gt;
+        &lt;max_entries&gt;1024&lt;/max_entries&gt;
+        &lt;max_entry_size_in_bytes&gt;1048576&lt;/max_entry_size_in_bytes&gt;
+        &lt;max_entry_size_in_rows&gt;30000000&lt;/max_entry_size_in_rows&gt;
+    &lt;/query_cache&gt;
+
+    &lt;backups&gt;
+        &lt;allowed_path&gt;backups&lt;/allowed_path&gt;
+        &lt;remove_backup_files_after_failure&gt;true&lt;/remove_backup_files_after_failure&gt;
+    &lt;/backups&gt;
+
+&lt;/clickhouse&gt;
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+
+
+</configuration>

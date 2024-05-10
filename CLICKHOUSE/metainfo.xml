@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <!--服务名称，唯一-->
+            <name>CLICKHOUSE</name>
+          	<!--在页面中显示的服务名称-->
+            <displayName>Clickhouse</displayName>
+            <!--服务描述，在安装服务时候提示的说明-->
+            <comment>ClickHouse是一个用于联机分析(OLAP)的列式数据库管理系统(DBMS)</comment>
+            <!--版本号，name+version需要唯一-->
+            <version>24.3.2.23</version>
+
+            <components>
+                <component>
+                    <!-- 组件名称 -->
+                    <name>CLICKHOUSE_SERVICE</name>
+                    <!--在页面中显示的服务名称-->
+                    <displayName>Clickhouse Service</displayName>
+                    <!--组件类型：MASTER/SLAVE/CLIENT-->
+                    <category>MASTER</category>
+                    <!-- 需要安装的机器数量，e.g. 0+,1+,2-3,ALL-->
+                    <cardinality>1+</cardinality>
+                    <!-- 存储 metric 数据的默认类型 -->
+                    <timelineAppid>clickhouse</timelineAppid>
+                    <!-- 该组件执行的脚本 -->
+                    <commandScript>
+                        <script>scripts/clickhouse_server.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                    <!-- 自定义命令,在页面Action下显示 -->
+                    <customCommands>
+                        <customCommand>
+                            <name>test_master_check</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/master.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+                    </customCommands>
+                </component>
+            </components>
+
+            <!--可选字段。用于告诉 Ambari Server 在哪里加载 xxx.xml 文件。如果我们希望服务使用默认的 configuration 目录，则可以跳过它。-->
+            <!--<configuration-dir></configuration-dir>-->
+
+            <!--快捷链接，在WebUI中快速跳转的链接，通常为服务的管理监控页面，如Hbase Master UI-->
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <!--默认值：quicklinks，可选字段。用于告诉 Ambari Server 在哪里加载 xxx.json 文件。如果我们希望服务使用默认的 quicklinks 目录，则可以跳过它-->
+                    <!--<quickLinksConfigurations-dir></quickLinksConfigurations-dir>-->
+                    <!--json 文件，指定的 quickLink 文件名称-->
+                    <fileName>quicklinks.json</fileName>
+                    <!--一般为 true-->
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
+
+            <!--根据不同操作系统选择不同的安装包-->
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                </osSpecific>
+            </osSpecifics>
+
+            <!--设置主题配置-->
+            <themes>
+                <theme>
+                    <!--可选字段。用于告诉 Ambari Server 在哪里加载 xxx.json 文件。如果我们希望服务使用默认的 themes 目录，则可以跳过它。-->
+                    <!--<themes-dir></themes-dir>-->
+                    <!--json 文件，指定的主题文件名称-->
+                    <fileName>theme.json</fileName>
+                    <!--一般为 true-->
+                    <default>true</default>
+                </theme>
+                <theme>
+                    <fileName>directories.json</fileName>
+                    <default>true</default>
+                </theme>
+            </themes>
+
+        </service>
+    </services>
+</metainfo>

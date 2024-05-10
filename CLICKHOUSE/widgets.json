@@ -1,0 +1,126 @@
+{
+  "layouts": [
+    {
+      "layout_name": "default_doris_dashboard",
+      "display_name": "Standard Doris Dashboard",
+      "section_name": "DORIS_SUMMARY",
+      "widgetLayoutInfo": [
+        {
+          "widget_name": "Doris 内存使用",
+          "description": "Doris 内存使用",
+          "widget_type": "GRAPH",
+          "is_visible": true,
+          "metrics": [
+              {
+                  "name": "doris.fe.mem",
+                  "metric_path": "metrics/doris/fe/mem",
+                  "service_name": "DORIS",
+                  "component_name": "FRONTEND"
+              },
+              {
+                  "name": "doris.fe.cpu",
+                  "metric_path": "metrics/doris/fe/cpu",
+                  "service_name": "DORIS",
+                  "component_name": "FRONTEND"
+              }
+          ],
+          "values": [
+              {
+                  "name": "FE 使用内存",
+                  "value": "${doris.fe.mem}"
+              },
+              {
+                  "name": "FE 使用CPU",
+                  "value": "${doris.fe.cpu}"
+              }
+          ],
+          "properties": {
+              "graph_type": "LINE",
+              "display_unit": "%",
+              "time_range": "1"
+          }
+      },
+        {
+            "widget_name": "当前Doris使用内存的百分比",
+            "description": "记录当前Doris使用内存的百分比",
+            "widget_type": "GAUGE",
+            "is_visible": true,
+            "metrics": [
+                {
+                    "name": "doris.used.memory",
+                    "metric_path": "metrics/doris/used/memory",
+                    "service_name": "DORIS",
+                    "component_name": "FRONTEND"
+                },
+                {
+                    "name": "doris.max.memory",
+                    "metric_path": "metrics/doris/max/memory",
+                    "service_name": "DORIS",
+                    "component_name": "FRONTEND"
+                }
+            ],
+            "values": [
+                {
+                    "name": "内存使用百分比",
+                    "value": "${doris.used.memory/doris.max.memory}"
+                }
+            ],
+            "properties": {
+                "error_threshold": "0.9",
+                "warning_threshold": "0.75"
+            }
+        },
+        {
+          "widget_name": "文档数量",
+          "description": "表中所有文档数量",
+          "widget_type": "NUMBER",
+          "is_visible": true,
+          "metrics": [
+              {
+                  "name": "doris.data.count",
+                  "metric_path": "metrics/doris/data/count",
+                  "service_name": "DORIS",
+                  "component_name": "FRONTEND"
+              }
+          ],
+          "values": [
+              {
+                  "name": "文档数量",
+                  "value": "${doris.data.count}"
+              }
+          ],
+          "properties": {
+              "warning_threshold": "50000",
+              "error_threshold": "100000",
+              "display_unit": "条"
+          }
+      },{
+          "widget_name": "Doris集群节点的存活占比",
+          "description": "Doris集群节点的存活占比，存活个数/总个数",
+          "widget_type": "TEMPLATE",
+          "is_visible": true,
+          "metrics": [
+              {
+                  "name": "doris.nodes.number._max",
+                  "metric_path": "metrics/doris/nodes/number._max",
+                  "service_name": "DORIS",
+                  "component_name": "FRONTEND"
+              },
+              {
+                  "name": "doris.total.nodes.number._max",
+                  "metric_path": "metrics/doris/total/nodes/number._max",
+                  "service_name": "DORIS",
+                  "component_name": "FRONTEND"
+              }
+          ],
+          "values": [
+              {
+                  "name": "节点存活信息",
+                  "value": "${doris.nodes.number._max} / ${doris.total.nodes.number._max}"
+              }
+          ]
+      }
+      ]
+    }
+  ]
+}
