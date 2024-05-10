@@ -1,0 +1,10 @@
+{
+  "general_deps": {
+    "HUBBLE_SERVICE-INSTALL": [
+      "HUGEGRAPH_SERVICE-INSTALL"
+    ],
+    "HUBBLE_SERVICE-START": [
+      "HUGEGRAPH_SERVICE-START"
+    ]
+  }
+}

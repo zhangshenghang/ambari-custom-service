@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration supports_adding_forbidden="true">
+
+    <property>
+        <name>hubble_port</name>
+        <display-name>Hubble Service Port</display-name>
+        <value>38088</value>
+        <description>Hubble Service Port</description>
+    </property>
+
+    <property>
+        <name>http.policy</name>
+        <value>HTTP_ONLY</value>
+        <description>
+          This configures the HTTP endpoint for Yarn Daemons.The following values are supported: - HTTP_ONLY : Service is provided only on http - HTTPS_ONLY : Service is provided only on https
+        </description>
+    </property>
+
+    <property>
+        <name>content</name>
+        <display-name>Hubble Service config file template</display-name>
+        <description>This is the template for hugegraph.properties file</description>
+        <value>
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements. See the NOTICE file distributed with this
+# work for additional information regarding copyright ownership. The ASF
+# licenses this file to You under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+
+hubble.host={{hostname}}
+hubble.port={{hubble_port}}
+
+gremlin.suffix_limit=250
+gremlin.vertex_degree_limit=100
+gremlin.edges_total_limit=500
+gremlin.batch_query_ids=100
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+
+</configuration>

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+
+
+    <property>
+        <name>content</name>
+        <display-name>HugeGraph Server config file template</display-name>
+        <description>hugegraph.properties 图配置,多个图自行在Custom中添加，key的格式为:hugegraph.xxx,xxx为图的具体名称,在配置文件中store也应与该值相同</description>
+        <value>
+gremlin.graph=org.apache.hugegraph.HugeFactory
+vertex.cache_type=l2
+edge.cache_type=l2
+backend=hbase
+serializer=hbase
+store=hugegraph
+raft.mode=false
+raft.path=./raft-log
+raft.safe_read=true
+raft.use_replicator_pipeline=true
+raft.election_timeout=10000
+raft.snapshot_interval=3600
+raft.backend_threads=48
+raft.read_index_threads=8
+raft.snapshot_threads=4
+raft.snapshot_parallel_compress=false
+raft.snapshot_compress_threads=4
+raft.snapshot_decompress_threads=4
+raft.read_strategy=ReadOnlyLeaseBased
+raft.queue_size=16384
+raft.queue_publish_timeout=60
+raft.apply_batch=1
+raft.rpc_threads=80
+raft.rpc_connect_timeout=5000
+raft.rpc_timeout=60
+raft.install_snapshot_rpc_timeout=36000
+search.text_analyzer=jieba
+search.text_analyzer_mode=INDEX
+hbase.hosts={{zookeeper_host}}
+hbase.port={{zookeeper_port}}
+hbase.znode_parent={{hbase_znode_parent}}
+hbase.threads_max=64
+hbase.enable_partition=true
+hbase.vertex_partitions=10
+hbase.edge_partitions=30
+        </value>
+        <value-attributes>
+            <type>content</type>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+
+</configuration>

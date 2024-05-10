@@ -1,0 +1,101 @@
+{
+  "ELASTICSEARCH": {
+    "service": [],
+    "ELASTICSEARCH_SERVICE": [
+      {
+        "name": "elasticsearch_server_process",
+        "label": "elasticsearch服务进程",
+        "description": "如果您不能确定Elasticsearch服务器进程已启动并且正在网络上侦听，则将触发此主机级别警报。",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{elastic-config/elasticsearch_port}}",
+          "default_port": 9200,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      }
+    ],
+    "ELASTICSEARCH_HEAD": [
+      {
+        "name": "elasticsearch_head_process",
+        "label": "elasticsearch-head服务进程",
+        "description": "如果无法确定elasticsearch-head进程已开始并且正在网络上侦听，则将触发此主机级别警报。",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{elastic-config/elasticsearch_head_port}}",
+          "default_port": 9100,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "es_head_webui",
+        "label": "elasticsearch-head界面",
+        "description": "如果无法访问Elasticsearch Head Web UI，则会触发此报警。",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "WEB",
+          "uri": {
+            "http": "{{elastic-config/elasticsearch_head_port}}",
+            "https": "{{elastic-config/elasticsearch_head_port}}",
+            "https_property": "http",
+            "https_property_value": "https",
+            "connection_timeout": 6.0,
+            "default_port": 2345
+          },
+          "reporting": {
+            "ok": {
+              "text": "HTTP {0} response in {2:.3f}s"
+            },
+            "warning": {
+              "text": "HTTP {0} response from {1} in {2:.3f}s"
+            },
+            "critical": {
+              "text": "Connection failed to {1}"
+            }
+          }
+        }
+      },
+      {
+        "name": "es_head_check_process",
+        "label": "检查elasticsearch-head进程",
+        "description": "检查elasticsearch-head服务进程",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "SCRIPT",
+          "path": "HDP/3.1/services/ELASTICSEARCH/package/alerts/alert_check_dir.py"
+        }
+      }
+    ]
+  }
+}

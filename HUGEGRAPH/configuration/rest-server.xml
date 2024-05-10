@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration supports_adding_forbidden="true">
+
+    <property>
+        <name>restserver_port</name>
+        <display-name>HugeGraph Rest Server Port</display-name>
+        <value>18080</value>
+        <description>HugeGraph Reset Server Port</description>
+    </property>
+
+    <property>
+        <name>content</name>
+        <display-name>HugeGraph Server rest-server.properties template</display-name>
+        <description>This is the template for hugegraph.properties file</description>
+        <value>
+# bind url
+restserver.url=http://{{hostname}}:{{restserver_port}}
+# gremlin server url, need to be consistent with host and port in gremlin-server.yaml
+gremlinserver.url=http://{{hostname}}:{{gremlin_port}}
+
+graphs=./conf/graphs
+
+# The maximum thread ratio for batch writing, only take effect if the batch.max_write_threads is 0
+batch.max_write_ratio=80
+batch.max_write_threads=0
+
+# configuration of arthas
+arthas.telnet_port=8562
+arthas.http_port=8561
+arthas.ip=0.0.0.0
+arthas.disabled_commands=jad
+
+# authentication configs
+# choose 'org.apache.hugegraph.auth.StandardAuthenticator' or
+# 'org.apache.hugegraph.auth.ConfigAuthenticator'
+#auth.authenticator=
+
+# for StandardAuthenticator mode
+#auth.graph_store=hugegraph
+# auth client config
+#auth.remote_url=127.0.0.1:8899,127.0.0.1:8898,127.0.0.1:8897
+
+# for ConfigAuthenticator mode
+#auth.admin_token=
+#auth.user_tokens=[]
+
+# rpc server configs for multi graph-servers or raft-servers
+rpc.server_host=127.0.0.1
+rpc.server_port=8091
+#rpc.server_timeout=30
+
+# rpc client configs (like enable to keep cache consistency)
+#rpc.remote_url=127.0.0.1:8091,127.0.0.1:8092,127.0.0.1:8093
+#rpc.client_connect_timeout=20
+#rpc.client_reconnect_period=10
+#rpc.client_read_timeout=40
+#rpc.client_retries=3
+#rpc.client_load_balancer=consistentHash
+
+# raft group initial peers
+#raft.group_peers=127.0.0.1:8091,127.0.0.1:8092,127.0.0.1:8093
+
+# lightweight load balancing (beta)
+server.id=server-1
+server.role=master
+
+# slow query log
+log.slow_query_threshold=1000
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+
+</configuration>

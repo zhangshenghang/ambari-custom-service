@@ -1,0 +1,15 @@
+{
+  "name": "default",
+  "description": "Default theme for ELASTICSEARCH service",
+  "configuration": {
+    "placement": {
+      "configuration-layout": "default"
+    },
+    "widgets": [
+
+    ],
+    "layouts": [
+
+    ]
+  }
+}

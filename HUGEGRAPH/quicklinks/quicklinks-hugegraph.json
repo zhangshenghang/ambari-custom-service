@@ -1,0 +1,32 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "https",
+      "checks": [
+        {
+          "property": "http.policy",
+          "desired": "HTTPS_ONLY",
+          "site": "hugegraph-hubble"
+        }
+      ]
+    },
+    "links": [
+      {
+        "name": "hubble_web",
+        "label": "Hubble Web UI",
+        "component_name": "HUBBLE_SERVICE",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "hubble_port",
+          "http_default_port": "8088",
+          "https_property": "hubble_port",
+          "https_default_port": "8088",
+          "regex": "^(\\d+)$",
+          "site": "hugegraph-hubble"
+        }
+      }
+    ]
+  }
+}

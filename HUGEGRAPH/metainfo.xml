@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <name>HUGEGRPAH</name>
+            <displayName>HugeGraph</displayName>
+            <comment>Apache HugeGraph 是一款易用、高效、通用的开源图数据库系统。</comment>
+            <version>1.2.0</version>
+            <components>
+                <component>
+                    <name>HUGEGRAPH_SERVICE</name>
+                    <displayName>HugeGraph Service</displayName>
+                    <category>MASTER</category>
+                    <cardinality>1</cardinality>
+                    <timelineAppid>hugegraph</timelineAppid>
+                    <commandScript>
+                        <script>scripts/hugegraph_server.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                    <customCommands>
+                        <customCommand>
+                            <name>test</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/hugegraph_server.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+                    </customCommands>
+
+                </component>
+                <component>
+                    <name>HUBBLE_SERVICE</name>
+                    <displayName>Hubble Service</displayName>
+                    <category>MASTER</category>
+                    <cardinality>1</cardinality>
+                    <timelineAppid>hubble</timelineAppid>
+                    <commandScript>
+                        <script>scripts/hubble.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                    <customCommands>
+                        <customCommand>
+                            <name>test</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/hubble.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+                    </customCommands>
+                </component>
+            </components>
+
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>1800</timeout>
+            </commandScript>
+
+            <configuration-dependencies>
+                <config-type>gremlin-server</config-type>
+                <config-type>hugegraph-config</config-type>
+                <config-type>hugegraph-env</config-type>
+                <config-type>hugegraph-hubble</config-type>
+                <config-type>rest-server</config-type>
+            </configuration-dependencies>
+
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                </osSpecific>
+            </osSpecifics>
+
+            <themes-dir>themes</themes-dir>
+            <themes>
+                <theme>
+                    <fileName>theme_elasticsearch_version_4.json</fileName>
+                    <default>true</default>
+                </theme>
+            </themes>
+
+            <!--            <quickLinksConfigurations-dir>quicklinks-mapred</quickLinksConfigurations-dir>-->
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <fileName>quicklinks-hugegraph.json</fileName>
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
+
+            <!--需要前置安装的服务，随便举的例子，假设Elasticsearch服务依赖zookeeper服务-->
+            <requiredServices>
+                <service>ZOOKEEPER</service>
+                <service>HBASE</service>
+                <service>HDFS</service>
+            </requiredServices>
+        </service>
+    </services>
+</metainfo>
