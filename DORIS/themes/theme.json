@@ -1,0 +1,388 @@
+{
+  "name": "default",
+  "description": "Default theme for Doris service",
+  "configuration": {
+    "layouts": [
+      {
+        "name": "default",
+        "tabs": [
+          {
+            "name": "settings",
+            "display-name": "Settings",
+            "layout": {
+              "tab-columns": "3",
+              "tab-rows": "3",
+              "sections": [
+                {
+                  "name": "timeout-doris",
+                  "display-name": "Timeout",
+                  "row-index": "0",
+                  "column-index": "0",
+                  "row-span": "1",
+                  "column-span": "2",
+                  "section-columns": "2",
+                  "section-rows": "1",
+                  "subsections": [
+                    {
+                      "name": "timeout-doris-col1",
+                      "row-index": "0",
+                      "column-index": "0",
+                      "row-span": "1",
+                      "column-span": "1"
+                    },
+                    {
+                      "name": "timeout-doris-col2",
+                      "row-index": "0",
+                      "column-index": "1",
+                      "row-span": "1",
+                      "column-span": "1"
+                    }
+                  ]
+                },
+                {
+                  "name": "meta-doris",
+                  "display-name": "Meta",
+                  "row-index": "0",
+                  "column-index": "2",
+                  "row-span": "1",
+                  "column-span": "1",
+                  "section-columns": "1",
+                  "section-rows": "1",
+                  "subsections": [
+                    {
+                      "name": "meta-doris-col1",
+                      "row-index": "0",
+                      "column-index": "0",
+                      "row-span": "1",
+                      "column-span": "1"
+                    }
+                  ]
+                },
+                {
+                  "name": "doris-checkpoint",
+                  "display-name": "CheckPoint",
+                  "row-index": "1",
+                  "column-index": "0",
+                  "row-span": "1",
+                  "column-span": "3",
+                  "section-columns": "3",
+                  "section-rows": "1",
+                  "subsections": [
+                    {
+                      "name": "doris-checkpoint-col1",
+                      "row-index": "0",
+                      "column-index": "0",
+                      "row-span": "1",
+                      "column-span": "1"
+                    },
+                    {
+                      "name": "doris-checkpoint-col2",
+                      "row-index": "0",
+                      "column-index": "1",
+                      "row-span": "1",
+                      "column-span": "1"
+                    },
+                    {
+                      "name": "doris-checkpoint-col3",
+                      "row-index": "0",
+                      "column-index": "2",
+                      "row-span": "1",
+                      "column-span": "1"
+                    }
+                  ]
+                },
+                {
+                  "name": "doris-ssl-1",
+                  "display-name": "SSL",
+                  "row-index": "2",
+                  "column-index": "0",
+                  "row-span": "2",
+                  "column-span": "3",
+                  "section-columns": "3",
+                  "section-rows": "2",
+                  "subsections": [
+                    {
+                      "name": "doris-ssl-col1",
+                      "row-index": "0",
+                      "column-index": "0",
+                      "row-span": "1",
+                      "column-span": "1"
+                    },
+                    {
+                      "name": "doris-ssl-col2",
+                      "row-index": "0",
+                      "column-index": "1",
+                      "row-span": "1",
+                      "column-span": "1",
+                      "depends-on": [
+                        {
+                          "configs": [
+                            "fe/doris_ssl"
+                          ],
+                          "if": "${fe/doris_ssl}",
+                          "then": {
+                            "property_value_attributes": {
+                              "visible": true
+                            }
+                          },
+                          "else": {
+                            "property_value_attributes": {
+                              "visible": false
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "doris-ssl-col3",
+                      "row-index": "1",
+                      "column-index": "0",
+                      "row-span": "1",
+                      "column-span": "1",
+                      "depends-on": [
+                        {
+                          "configs": [
+                            "fe/doris_ssl"
+                          ],
+                          "if": "${fe/doris_ssl}",
+                          "then": {
+                            "property_value_attributes": {
+                              "visible": true
+                            }
+                          },
+                          "else": {
+                            "property_value_attributes": {
+                              "visible": false
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "placement": {
+      "configuration-layout": "default",
+      "configs": [
+        {
+          "config": "fe/catalog_try_lock_timeout_ms",
+          "subsection-name": "timeout-doris-col1"
+        },
+        {
+          "config": "fe/bdbje_replica_ack_timeout_second",
+          "subsection-name": "timeout-doris-col1"
+        },
+        {
+          "config": "fe/bdbje_lock_timeout_second",
+          "subsection-name": "timeout-doris-col1"
+        },
+        {
+          "config": "fe/bdbje_heartbeat_timeout_second",
+          "subsection-name": "timeout-doris-col2"
+        },
+        {
+          "config": "fe/thrift_client_timeout_ms",
+          "subsection-name": "timeout-doris-col2"
+        },
+        {
+          "config": "fe/broker_timeout_ms",
+          "subsection-name": "timeout-doris-col2"
+        },
+        {
+          "config": "fe/metadata_failure_recovery",
+          "subsection-name": "meta-doris-col1"
+        },
+        {
+          "config": "fe/ignore_meta_check",
+          "subsection-name": "meta-doris-col1"
+        },
+        {
+          "config": "fe/meta_delay_toleration_second",
+          "subsection-name": "meta-doris-col1"
+        },
+        {
+          "config": "fe/metadata_checkpoint_memory_threshold",
+          "subsection-name": "doris-checkpoint-col1"
+        },
+        {
+          "config": "fe/force_do_metadata_checkpoint",
+          "subsection-name": "doris-checkpoint-col2"
+        },
+        {
+          "config": "fe/doris_test_password",
+          "subsection-name": "doris-checkpoint-col2"
+        },
+        {
+          "config": "fe/doris_test_text_field",
+          "subsection-name": "doris-checkpoint-col2"
+        },
+        {
+          "config": "fe/doris_test_slider",
+          "subsection-name": "doris-checkpoint-col2"
+        },
+        {
+          "config": "fe/doris_ssl",
+          "subsection-name": "doris-ssl-col1"
+        },
+        {
+          "config": "fe/doris_ssl_username",
+          "subsection-name": "doris-ssl-col2"
+        },
+        {
+          "config": "fe/doris_ssl_password",
+          "subsection-name": "doris-ssl-col3"
+        }
+      ]
+    },
+    "widgets": [
+      {
+        "config": "fe/catalog_try_lock_timeout_ms",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "days,hours,minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/bdbje_replica_ack_timeout_second",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/bdbje_lock_timeout_second",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/bdbje_heartbeat_timeout_second",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/thrift_client_timeout_ms",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/broker_timeout_ms",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/metadata_failure_recovery",
+        "widget": {
+          "type": "toggle"
+        }
+      },
+      {
+        "config": "fe/ignore_meta_check",
+        "widget": {
+          "type": "toggle"
+        }
+      },
+      {
+        "config": "fe/meta_delay_toleration_second",
+        "widget": {
+          "type": "time-interval-spinner",
+          "units": [
+            {
+              "unit-name": "minutes,seconds"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/metadata_checkpoint_memory_threshold",
+        "widget": {
+          "type": "combo"
+        }
+      },
+      {
+        "config": "fe/force_do_metadata_checkpoint",
+        "widget": {
+          "type": "toggle"
+        }
+      },
+      {
+        "config": "fe/doris_test_password",
+        "widget": {
+          "type": "password"
+        }
+      },
+      {
+        "config": "fe/doris_test_text_field",
+        "widget": {
+          "type": "text-field"
+        }
+      },
+      {
+        "config": "fe/doris_test_slider",
+        "widget": {
+          "type": "slider",
+          "units": [
+            {
+              "unit-name": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "config": "fe/doris_ssl",
+        "widget": {
+          "type": "toggle"
+        }
+      },
+      {
+        "config": "fe/doris_ssl_username",
+        "widget": {
+          "type": "text-field"
+        }
+      },
+      {
+        "config": "fe/doris_ssl_password",
+        "widget": {
+          "type": "password"
+        }
+      }
+    ]
+  }
+}
+

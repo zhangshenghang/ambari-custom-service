@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <!--服务名称,在所有Ambari安装服务中保持唯一-->
+            <name>DORIS</name>
+            <!--在Ambari Web UI中显示的名称-->
+            <displayName>Doris</displayName>
+            <!--服务描述，在安装服务时候提示的说明-->
+            <comment>Doris 2.0.5 版本服务安装</comment>
+            <!--版本号，安装服务时name+version组合去重-->
+            <version>2.0.5</version>
+            <!--设置服务在初次部署集群时强制安装-->
+            <!--<selection>MANDATORY</selection>-->
+            <configuration-dependencies>
+                <config-type>fe</config-type>
+            </configuration-dependencies>
+            <components>
+                <component>
+                    <!--组件名称-->
+                    <name>FRONTEND</name>
+                    <!--组件在页面显示名称-->
+                    <displayName>Doris Frontend</displayName>
+                    <!--组件类型，取值： MASTER、SLAVE、CLIENT-->
+                    <category>MASTER</category>
+                    <!--需要安装的机器数，可以是固定数字 1，可以是一个范围比如 1-2，也可以是 1+、0+、ALL或者是一个范围，进行服务安装向导的时候会限制选择的机器数。-->
+                    <cardinality>1</cardinality>
+                    <!--是否宣称版本，用于回滚和升级-->
+                    <versionAdvertised>true</versionAdvertised>
+                    <!--存储 metric 数据的默认类型-->
+                    <timelineAppid>doris</timelineAppid>
+                    <!--标准命令，必填选项调用python脚本，用来执行该组件的某些操作,该脚本包含启动、停止等执行方法-->
+                    <commandScript>
+                        <script>scripts/fe.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                    <customCommands>
+                        <customCommand>
+                            <name>node_check</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/fe.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+                        <customCommand>
+                            <name>add_backends</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/fe.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+
+                    </customCommands>
+
+                </component>
+                <component>
+                    <!--组件名称-->
+                    <name>FRONTEND_OBSERVER</name>
+                    <!--组件在页面显示名称-->
+                    <displayName>Doris Frontend Observer</displayName>
+                    <!--组件类型，取值： MASTER、SLAVE、CLIENT-->
+                    <category>SLAVE</category>
+                    <!--需要安装的机器数，可以是固定数字 1，可以是一个范围比如 1-2，也可以是 1+、0+、ALL或者是一个范围，进行服务安装向导的时候会限制选择的机器数。-->
+                    <cardinality>1+</cardinality>
+                    <!--是否宣称版本，用于回滚和升级-->
+                    <versionAdvertised>true</versionAdvertised>
+                    <!--存储 metric 数据的默认类型-->
+                    <timelineAppid>doris</timelineAppid>
+                    <!--标准命令，必填选项调用python脚本，用来执行该组件的某些操作,该脚本包含启动、停止等执行方法-->
+                    <commandScript>
+                        <script>scripts/frontend_observer.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                </component>
+                <component>
+                    <!--组件名称-->
+                    <name>FRONTEND_FOLLOWER</name>
+                    <!--组件在页面显示名称-->
+                    <displayName>Doris Frontend Follower</displayName>
+                    <!--组件类型，取值： MASTER、SLAVE、CLIENT-->
+                    <category>SLAVE</category>
+                    <!--需要安装的机器数，可以是固定数字 1，可以是一个范围比如 1-2，也可以是 1+、0+、ALL或者是一个范围，进行服务安装向导的时候会限制选择的机器数。-->
+                    <cardinality>0+</cardinality>
+                    <!--是否宣称版本，用于回滚和升级-->
+                    <versionAdvertised>true</versionAdvertised>
+                    <!--存储 metric 数据的默认类型-->
+                    <timelineAppid>doris</timelineAppid>
+                    <!--标准命令，必填选项调用python脚本，用来执行该组件的某些操作,该脚本包含启动、停止等执行方法-->
+                    <commandScript>
+                        <script>scripts/frontend_follower.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                </component>
+
+                <component>
+                    <!--组件名称,command-xxx.json中的backend_hosts字段命名就是这个取的字段-->
+                    <name>BACKEND</name>
+                    <!--组件在页面显示名称-->
+                    <displayName>Doris Backend</displayName>
+                    <!--组件类型，取值： MASTER、SLAVE、CLIENT-->
+                    <category>SLAVE</category>
+                    <!--需要安装的机器数，可以是固定数字 1，可以是一个范围比如 1-2，也可以是 1+、0+、ALL或者是一个范围，进行服务安装向导的时候会限制选择的机器数。-->
+                    <cardinality>0+</cardinality>
+                    <!--是否宣称版本，用于回滚和升级-->
+                    <versionAdvertised>true</versionAdvertised>
+                    <!--存储 metric 数据的默认类型-->
+                    <timelineAppid>doris</timelineAppid>
+                    <!--标准命令，必填选项调用python脚本，用来执行该组件的某些操作,该脚本包含启动、停止等执行方法-->
+                    <commandScript>
+                        <script>scripts/be.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                </component>
+                <component>
+                    <name>DORIS_CLIENT</name>
+                    <displayName>Doris Client</displayName>
+                    <category>CLIENT</category>
+                    <cardinality>1+</cardinality>
+                    <versionAdvertised>true</versionAdvertised>
+                    <commandScript>
+                        <script>scripts/doris_client.py</script>
+                        <scriptType>PYTHON</scriptType>
+                    </commandScript>
+                    <configFiles>
+                        <configFile>
+                            <type>properties</type>
+                            <fileName>fe.conf</fileName>
+                            <dictionaryName>fe</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>properties</type>
+                            <fileName>be.conf</fileName>
+                            <dictionaryName>be</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>properties</type>
+                            <fileName>doris-env</fileName>
+                            <dictionaryName>doris-env</dictionaryName>
+                        </configFile>
+                    </configFiles>
+                </component>
+            </components>
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>1800</timeout>
+            </commandScript>
+            <!--可选字段。用于告诉 Ambari Server 在哪里加载 xxx.xml 文件。如果我们希望服务使用默认的 configuration 目录，则可以跳过它。-->
+            <!--<configuration-dir></configuration-dir>-->
+
+            <!--快捷链接，在WebUI中快速跳转的链接，通常为服务的管理监控页面，如Hbase Master UI-->
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <!--默认值：quicklinks，可选字段。用于告诉 Ambari Server 在哪里加载 xxx.json 文件。如果我们希望服务使用默认的 quicklinks 目录，则可以跳过它-->
+                    <!--<quickLinksConfigurations-dir></quickLinksConfigurations-dir>-->
+                    <!--json 文件，指定的 quickLink 文件名称-->
+                    <fileName>quicklinks.json</fileName>
+                    <!--一般为 true-->
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
+
+            <!--根据不同操作系统选择不同的安装包-->
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                </osSpecific>
+            </osSpecifics>
+
+            <!--设置主题配置-->
+            <themes>
+                <theme>
+                    <!--可选字段。用于告诉 Ambari Server 在哪里加载 xxx.json 文件。如果我们希望服务使用默认的 themes 目录，则可以跳过它。-->
+                    <!--<themes-dir></themes-dir>-->
+                    <!--json 文件，指定的主题文件名称-->
+                    <fileName>theme.json</fileName>
+                    <!--一般为 true-->
+                    <default>true</default>
+                </theme>
+                <theme>
+                    <fileName>directories.json</fileName>
+                    <default>true</default>
+                </theme>
+            </themes>
+
+            <requiredServices>
+                <service>ZOOKEEPER</service>
+                <service>HDFS</service>
+                <service>SPARK2</service>
+            </requiredServices>
+        </service>
+    </services>
+</metainfo>

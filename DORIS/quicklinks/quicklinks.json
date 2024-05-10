@@ -1,0 +1,32 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "https",
+      "checks": [
+        {
+          "property": "doris.http.policy",
+          "desired": "HTTPS_ONLY",
+          "site": "doris-env"
+        }
+      ]
+    },
+    "links": [
+      {
+        "name": "doris_ui",
+        "label": "Doris UI 界面跳转",
+        "component_name": "FRONTEND",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "http_port",
+          "http_default_port": "",
+          "https_property": "http_port",
+          "https_default_port": "",
+          "regex": "^(\\d+)$",
+          "site": "fe"
+        }
+      }
+    ]
+  }
+}

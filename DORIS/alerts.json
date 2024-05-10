@@ -1,0 +1,369 @@
+{
+  "DORIS": {
+    "service": [],
+    "FRONTEND": [
+      {
+        "name": "doris_fe_http_port_check",
+        "label": "Doris Frontend http_port 连接状态",
+        "description": "Doris Frontend http_port 连接状态",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/http_port}}",
+          "default_port": 8030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_edit_log_port_check",
+        "label": "Doris Frontend edit_log_port 连接状态",
+        "description": "Doris Frontend edit_log_port 连接状态",
+        "interval": 1,
+        "scope": "HOST",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/edit_log_port}}",
+          "default_port": 9010,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_query_port_check",
+        "label": "Doris Frontend query_port 连接状态",
+        "description": "Doris Frontend query_port 连接状态",
+        "interval": 1,
+        "scope": "SERVICE",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/query_port}}",
+          "default_port": 9030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_pid_exists",
+        "label": "Doris Frontend 进程监测",
+        "description": "check doris fe process",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "SCRIPT",
+          "path": "HDP/3.1/services/DORIS/package/alerts/alert_fe_pid_exists.py"
+        }
+      }
+    ],
+    "FRONTEND_OBSERVER": [
+      {
+        "name": "doris_fe_observer_http_port_check",
+        "label": "Doris Frontend Observer http_port 连接状态",
+        "description": "Doris Frontend Observer http_port 连接状态",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/http_port}}",
+          "default_port": 8030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_observer_edit_log_port_check",
+        "label": "Doris Frontend Observer edit_log_port 连接状态",
+        "description": "Doris Frontend Observer edit_log_port 连接状态",
+        "interval": 1,
+        "scope": "HOST",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/edit_log_port}}",
+          "default_port": 9010,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_observer_query_port_check",
+        "label": "Doris Frontend Observer query_port 连接状态",
+        "description": "Doris Frontend Observer query_port 连接状态",
+        "interval": 1,
+        "scope": "SERVICE",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/query_port}}",
+          "default_port": 9030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_observer_pid_exists",
+        "label": "Doris Frontend Observer 进程监测",
+        "description": "Doris Frontend Observer 进程监测",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "SCRIPT",
+          "path": "HDP/3.1/services/DORIS/package/alerts/alert_fe_pid_exists.py"
+        }
+      }
+    ],
+    "FRONTEND_FOLLOWER": [
+      {
+        "name": "doris_fe_follower_http_port_check",
+        "label": "Doris Frontend  Follower http_port 连接状态",
+        "description": "Doris Frontend  Follower http_port 连接状态",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/http_port}}",
+          "default_port": 8030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_follower_edit_log_port_check",
+        "label": "Doris Frontend  Follower edit_log_port 连接状态",
+        "description": "Doris Frontend  Follower edit_log_port 连接状态",
+        "interval": 1,
+        "scope": "HOST",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/edit_log_port}}",
+          "default_port": 9010,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_follower_query_port_check",
+        "label": "Doris Frontend  Follower query_port 连接状态",
+        "description": "Doris Frontend  Follower query_port 连接状态",
+        "interval": 1,
+        "scope": "SERVICE",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe/query_port}}",
+          "default_port": 9030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_fe_follower_pid_exists",
+        "label": "Doris Frontend Follower 进程监测",
+        "description": "Doris Frontend Follower 进程监测",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "SCRIPT",
+          "path": "HDP/3.1/services/DORIS/package/alerts/alert_fe_pid_exists.py"
+        }
+      }
+    ],
+    "BACKEND": [
+      {
+        "name": "doris_be_be_port_check",
+        "label": "Doris Backend be_port 连接状态",
+        "description": "Doris Backend be_port 连接状态",
+        "interval": 1,
+        "scope": "ANY",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{be/be_port}}",
+          "default_port": 9060,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_be_heartbeat_service_port_check",
+        "label": "Doris Backend heartbeat_service_port 连接状态",
+        "description": "Doris Backend heartbeat_service_port 连接状态",
+        "interval": 1,
+        "scope": "HOST",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{be/heartbeat_service_port}}",
+          "default_port": 9050,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_be_webserver_port_check",
+        "label": "Doris Backend webserver_port 连接状态",
+        "description": "Doris Backend webserver_port 连接状态",
+        "interval": 1,
+        "scope": "SERVICE",
+        "enabled": true,
+        "source": {
+          "type": "PORT",
+          "uri": "{{be/webserver_port}}",
+          "default_port": 8040,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed",
+              "value": 5
+            }
+          }
+        }
+      },
+      {
+        "name": "doris_be_pid_exists",
+        "label": "Doris Backend 进程监测",
+        "description": "Doris Backend 进程监测",
+        "interval": 1,
+        "scope": "ANY",
+        "source": {
+          "type": "SCRIPT",
+          "path": "HDP/3.1/services/DORIS/package/alerts/alert_be_pid_exists.py"
+        }
+      }
+    ]
+  }
+}

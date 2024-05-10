@@ -1,0 +1,48 @@
+{
+  "FRONTEND": {
+    "Component": [
+      {
+        "type": "ganglia",
+        "metrics": {
+          "default": {
+            "metrics/doris/fe/mem": {
+              "metric": "doris.fe.mem",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/fe/cpu": {
+              "metric": "doris.fe.cpu",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/used/memory": {
+              "metric": "doris.used.memory",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/max/memory": {
+              "metric": "doris.max.memory",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/data/count": {
+              "metric": "doris.data.count",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/nodes/number": {
+              "metric": "doris.nodes.number",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/doris/total/nodes/number": {
+              "metric": "doris.total.nodes.number",
+              "pointInTime": true,
+              "temporal": true
+            }
+          }
+        }
+      }
+    ]
+  }
+}

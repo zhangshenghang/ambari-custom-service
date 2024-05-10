@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+     <property>
+        <name>priority_networks</name>
+        <display-name>priority_networks</display-name>
+        <value></value>
+        <description>这个参数我们在安装的时候是必须要配置的，特别是当一台机器拥有多个IP地址的时候，我们要为 FE 指定唯一的IP地址。这里假设你的节点 IP 是 172.23.16.32，那么我们可以通过掩码的方式配置为 172.23.16.0/24。</description>
+    </property>
+    <property>
+        <name>CUR_DATE</name>
+        <display-name>CUR_DATE</display-name>
+        <value>`date +%Y%m%d-%H%M%S`</value>
+        <description></description>
+    </property>
+    <property>
+        <name>LOG_DIR</name>
+        <display-name>LOG_DIR</display-name>
+        <value>/var/log/doris-fe</value>
+        <description></description>
+    </property>
+    <property>
+        <name>sys_log_dir</name>
+        <display-name>sys_log_dir</display-name>
+        <value>/var/log/doris-fe</value>
+        <description></description>
+    </property>
+    <property>
+        <name>audit_log_dir</name>
+        <display-name>audit_log_dir</display-name>
+        <value>/var/log/doris-fe</value>
+        <description></description>
+    </property>
+    <property>
+        <name>JAVA_OPTS</name>
+        <display-name>JAVA_OPTS</display-name>
+        <value>"-Djavax.security.auth.useSubjectCredsOnly=false -Xss4m -Xmx8192m -XX:+UseMembar -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -Xloggc:$DORIS_HOME/log/fe.gc.log.$CUR_DATE"</value>
+        <description></description>
+    </property>
+    <property>
+        <name>JAVA_OPTS_FOR_JDK_9</name>
+        <display-name>JAVA_OPTS_FOR_JDK_9</display-name>
+        <value>"-Djavax.security.auth.useSubjectCredsOnly=false -Xss4m -Xmx8192m -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+CMSClassUnloadingEnabled -XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -Xlog:gc*:$DORIS_HOME/log/fe.gc.log.$CUR_DATE:time"</value>
+        <description></description>
+    </property>
+    <property>
+        <name>sys_log_level</name>
+        <display-name>sys_log_level</display-name>
+        <value>INFO</value>
+        <description></description>
+    </property>
+    <property>
+        <name>sys_log_mode</name>
+        <display-name>sys_log_mode</display-name>
+        <value>NORMAL</value>
+        <description></description>
+    </property>
+    <property>
+        <name>meta_dir</name>
+        <display-name>meta_dir</display-name>
+        <value>/data/doris-meta</value>
+        <description></description>
+    </property>
+    <property>
+        <name>http_port</name>
+        <display-name>http_port</display-name>
+        <value>18030</value>
+        <description></description>
+    </property>
+    <property>
+        <name>rpc_port</name>
+        <display-name>rpc_port</display-name>
+        <value>9020</value>
+        <description></description>
+    </property>
+    <property>
+        <name>query_port</name>
+        <display-name>query_port</display-name>
+        <value>9030</value>
+        <description></description>
+    </property>
+    <property>
+        <name>edit_log_port</name>
+        <display-name>edit_log_port</display-name>
+        <value>9010</value>
+        <description></description>
+    </property>
+
+</configuration>
