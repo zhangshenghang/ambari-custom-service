@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <name>ELASTICSEARCH</name>
+            <displayName>Elasticsearch</displayName>
+            <comment>Elasticsearch是一个基于Lucene的搜索服务。它提供了一个基于RESTful web接口的分布式多用户全文检索引擎。</comment>
+            <version>7.14.2</version>
+            <components>
+                <component>
+                    <name>ELASTICSEARCH_SERVICE</name>
+                    <displayName>Elasticsearch Service</displayName>
+                    <category>MASTER</category>
+                    <cardinality>1+</cardinality>
+                    <timelineAppid>elasticsearch</timelineAppid>
+                    <commandScript>
+                        <script>scripts/master.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                    <customCommands>
+                        <customCommand>
+                            <name>password_init</name>
+                            <background>true</background>
+                            <commandScript>
+                                <script>scripts/master.py</script>
+                                <scriptType>PYTHON</scriptType>
+                            </commandScript>
+                        </customCommand>
+                    </customCommands>
+                </component>
+                <component>
+                    <name>CEREBRO</name>
+                    <displayName>cerebro</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>1</cardinality>
+                    <commandScript>
+                        <script>scripts/cerebro.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                </component>
+                <component>
+                    <name>KIBANA</name>
+                    <displayName>kibana</displayName>
+                    <category>MASTER</category>
+                    <cardinality>1</cardinality>
+                    <commandScript>
+                        <script>scripts/kibana.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                </component>
+                <component>
+                    <name>ELASTICSEARCH_CLIENT</name>
+                    <displayName>ELASTICSEARCH Client</displayName>
+                    <category>CLIENT</category>
+                    <cardinality>1+</cardinality>
+                    <versionAdvertised>true</versionAdvertised>
+                    <commandScript>
+                        <script>scripts/elasticsearch_client.py</script>
+                        <scriptType>PYTHON</scriptType>
+                    </commandScript>
+                    <configFiles>
+                        <configFile>
+                            <type>xml</type>
+                            <fileName>elastic-config.xml</fileName>
+                            <dictionaryName>elastic-config</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>xml</type>
+                            <fileName>elastic-env.xml</fileName>
+                            <dictionaryName>elastic-env</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>jvm.options</fileName>
+                            <dictionaryName>elastic-jvm</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>kibana.yml</fileName>
+                            <dictionaryName>kibana</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>application.conf</fileName>
+                            <dictionaryName>cerebro</dictionaryName>
+                        </configFile>
+                    </configFiles>
+                </component>
+            </components>
+
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>1800</timeout>
+            </commandScript>
+
+
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                </osSpecific>
+            </osSpecifics>
+
+            <!--            <configuration-dir>configuration-mapred</configuration-dir>-->
+            <configuration-dependencies>
+                <config-type>elastic-env</config-type>
+                <config-type>elastic-config</config-type>
+            </configuration-dependencies>
+
+            <themes-dir>themes</themes-dir>
+            <themes>
+                <theme>
+                    <fileName>theme_elasticsearch_version_4.json</fileName>
+                    <default>true</default>
+                </theme>
+            </themes>
+
+            <!--            <quickLinksConfigurations-dir>quicklinks-mapred</quickLinksConfigurations-dir>-->
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <fileName>quicklinks-es.json</fileName>
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
+
+            <!--需要前置安装的服务，随便举的例子，假设Elasticsearch服务依赖zookeeper服务-->
+<!--            <requiredServices>-->
+<!--                <service>ZOOKEEPER</service>-->
+<!--            </requiredServices>-->
+        </service>
+    </services>
+</metainfo>

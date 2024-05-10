@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+import json
+
+with open('/var/lib/ambari-agent/tmp/es_metrics.json', 'r') as jsonfile:
+        data = json.load(jsonfile)
+indices_count = data['indices']['count']
+print indices_count

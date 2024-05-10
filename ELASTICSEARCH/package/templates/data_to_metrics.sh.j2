@@ -1,0 +1,51 @@
+#!/bin/sh
+##############################
+# 相关ES监控指标脚本逻辑如下：
+# 1、通过curl es的api，获取json字符串，将其输出到固定的/var/lib/ambari-agent/tmp目录下。
+# 2、通过python解析json，得到指标。
+# 3、发送指标：将指标放入指定的json中并向metrics发送POST请求。
+# 4、将向metrics发送的json字符串输出到${elastic_log_dir}/data_to_metrics.log中，方便相关人员查看ES指标发送的情况。
+# 5、每隔10s向metrics发送一系列POST请求。
+# 6、根据监控elasticsearch的监控来判断es是否启动。如服务停止，则停止向metrics发送请求。
+# 7、判断metrics是否被安装，如果不安装，也不向metrics发送请求。
+##############################
+hostname=`hostname`
+
+appid="elasticsearch"
+mn1="indices.count"
+url=http://$2:6188/ws/v1/timeline/metrics
+ps -ef | grep Elasticsearch | grep -v grep >> /dev/null
+while [ $? -eq 0 ]
+do
+    if [ $2 != "localhost" ];then
+        millon_time=$(( $(date +%s%N) / 1000000 ))
+        json=`curl -s http://$hostname:$1/_cluster/stats`
+        echo $json > /var/lib/ambari-agent/tmp/es_metrics.json
+
+        data=`python es_metrics.py`
+
+        echo $data > $3/es_metrics.log
+
+        indices_count=`echo $data | awk '{print $1}'`
+
+        json="{
+         \"metrics\": [
+         {
+         \"metricname\": \"$mn1\",
+         \"appid\": \"$appid\",
+         \"hostname\": \"$hostname\",
+         \"timestamp\": ${millon_time},
+         \"starttime\": ${millon_time},
+         \"metrics\": {
+         \"${millon_time}\": $indices_count
+         }
+         }
+         ]
+        }"
+
+        echo $json | tee >> $3/es_metrics.log
+        curl -i -X POST -H "Content-Type: application/json" -d "${json}" ${url}
+        sleep 10
+        ps -ef | grep Elasticsearch | grep -v grep >> /dev/null
+    fi
+done

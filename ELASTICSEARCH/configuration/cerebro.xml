@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<configuration supports_adding_forbidden="true">
+
+
+    <property>
+        <name>cerebro_log_dir</name>
+        <display-name>Cerebro pid directory</display-name>
+        <value>/var/log/cerebro</value>
+        <description>Cerebro日志目录</description>
+    </property>
+
+    <property>
+        <name>pidfile_dir</name>
+        <display-name>Cerebro pid directory</display-name>
+        <value>/var/run/cerebro</value>
+        <description>运行PID文件存储目录</description>
+    </property>
+
+    <property>
+        <name>cerebro_port</name>
+        <display-name>Cerebro port</display-name>
+        <value>59000</value>
+        <description>Cerebro使用端口</description>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+
+
+     <property>
+        <name>http.policy</name>
+        <value>HTTP_ONLY</value>
+        <description>
+          This configures the HTTP endpoint for Yarn Daemons.The following values are supported: - HTTP_ONLY : Service is provided only on http - HTTPS_ONLY : Service is provided only on https
+        </description>
+     </property>
+
+    <property>
+        <name>content</name>
+        <display-name>Cerebro Config</display-name>
+        <value-attributes>
+            <!-- 默认为input输入框，当type为content时，即为文本框 -->
+            <type>content</type>
+            <!-- 是否显示配置名称 -->
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <value>
+# Secret will be used to sign session cookies, CSRF tokens and for other encryption utilities.
+# It is highly recommended to change this value before running cerebro in production.
+secret = "ki:s:[[@=Ag?QI`W2jMwkY:eqvrJ]JqoJyi2axj3ZvOv^/KavOT4ViJSv?6YY4[N"
+
+# Application base path
+basePath = "/"
+
+# Defaults to RUNNING_PID at the root directory of the app.
+# To avoid creating a PID file set this value to /dev/null
+#pidfile.path = "/var/run/cerebro.pid"
+pidfile.path = "{{cerebro_pid_dir}}/cerebro.pid"
+
+# Rest request history max size per user
+rest.history.size = 50 // defaults to 50 if not specified
+
+# Path of local database file
+#data.path: "/var/lib/cerebro/cerebro.db"
+data.path = "./cerebro.db"
+
+play {
+  # Cerebro port, by default it's 9000 (play's default)
+  server.http.port = {{cerebro_port}}
+}
+
+es = {
+  gzip = true
+}
+
+# Authentication
+auth = {
+  # either basic or ldap
+  type: ${?AUTH_TYPE}
+  settings {
+    # LDAP
+    url = ${?LDAP_URL}
+    # OpenLDAP might be something like "ou=People,dc=domain,dc=com"
+    base-dn = ${?LDAP_BASE_DN}
+    # Usually method should  be "simple" otherwise, set it to the SASL mechanisms to try
+    method = ${?LDAP_METHOD}
+    # user-template executes a string.format() operation where
+    # username is passed in first, followed by base-dn. Some examples
+    #  - %s => leave user untouched
+    #  - %s@domain.com => append "@domain.com" to username
+    #  - uid=%s,%s => usual case of OpenLDAP
+    user-template = ${?LDAP_USER_TEMPLATE}
+    // User identifier that can perform searches
+    bind-dn = ${?LDAP_BIND_DN}
+    bind-pw = ${?LDAP_BIND_PWD}
+    group-search {
+      // If left unset parent's base-dn will be used
+      base-dn = ${?LDAP_GROUP_BASE_DN}
+      // Attribute that represent the user, for example uid or mail
+      user-attr = ${?LDAP_USER_ATTR}
+      // Define a separate template for user-attr
+      // If left unset parent's user-template will be used
+      user-attr-template = ${?LDAP_USER_ATTR_TEMPLATE}
+      // Filter that tests membership of the group. If this property is empty then there is no group membership check
+      // AD example => memberOf=CN=mygroup,ou=ouofthegroup,DC=domain,DC=com
+      // OpenLDAP example => CN=mygroup
+      group = ${?LDAP_GROUP}
+    }
+
+    # Basic auth
+    username = ${?BASIC_AUTH_USER}
+    password = ${?BASIC_AUTH_PWD}
+  }
+}
+
+# A list of known hosts
+hosts = [
+  {
+    host = "http://{{elasticsearch_service_host}}:{{elasticsearch_port}}"
+    name = "{{cluster_name}}"
+  #  headers-whitelist = [ "x-proxy-user", "x-proxy-roles", "X-Forwarded-For" ]
+  #}
+  # Example of host with authentication
+{% if xpack_security_enabled == 'true' %}
+  # {
+  #  host = "http://some-authenticated-host:9200"
+  #  name = "Secured Cluster"
+    auth = {
+      username = "elastic"
+      password = "{{elastic_password}}"
+    }
+{% endif %}
+  }
+]
+        </value>
+        <description>cerebro 配置</description>
+    </property>
+
+
+
+</configuration>

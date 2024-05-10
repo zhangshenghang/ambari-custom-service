@@ -1,0 +1,34 @@
+#!/bin/bash
+
+install_setuptools(){
+   wget -P /tmp https://files.pythonhosted.org/packages/a4/c8/9a7a47f683d54d83f648d37c3e180317f80dc126a304c45dc6663246233a/setuptools-36.5.0.zip
+   cd /tmp; unzip setuptools-36.5.0.zip
+   cd /tmp/setuptools-36.5.0
+   python setup.py install
+}
+
+install_pip(){
+   wget -P /tmp https://files.pythonhosted.org/packages/11/31/c483614095176ddfa06ac99c2af4171375053b270842c7865ca0b4438dc1/pip-19.0.tar.gz
+   cd /tmp; tar zxvf pip-19.0.tar.gz
+   cd /tmp/pip-19.0
+   python setup.py install
+}
+
+pip -V
+if [ $? == 0 ];then
+   echo "aaa"
+else
+   echo "install pip..."
+   # install setuptools
+   install_setuptools
+   # pip
+   install_pip
+fi
+
+pip list | grep requests
+if [ $? == 0 ];then
+   echo "aaa"
+else
+   echo "bbb"
+   pip install requests
+fi

@@ -1,0 +1,364 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration supports_adding_forbidden="true">
+
+    <!-- Cluster -->
+    <property>
+        <name>cluster_name</name>
+        <display-name>集群名称</display-name>
+        <value>elasticsearch</value>
+        <description>Elasticsearch集群名称，同一集群内的所有节点必须使用相同的集群名称。</description>
+        <value-attributes>
+          <editable-only-at-install>true</editable-only-at-install>
+        </value-attributes>
+    </property>
+
+    <!-- Node -->
+    <property>
+        <name>node_attr_rack</name>
+        <display-name>Node attr rack</display-name>
+        <value>/default-rack</value>
+        <description>在Elasticsearch中，node.attr.rack 是一个节点级别的设置，用于指定节点所在的机架（rack）。在分布式系统中，尤其是在大型数据中心或云环境中，了解节点之间的物理布局（比如哪些节点位于同一个机架，哪些节点位于不同的机架）是非常重要的，因为这可以影响到数据复制、故障恢复和查询性能等。
+            通过设置 node.attr.rack，Elasticsearch 能够更好地进行分片分配和副本放置，以提高容错性和查询性能。例如，Elasticsearch 可能会尝试将同一个分片的多个副本放置在不同的机架上，以减少单点故障的风险（比如整个机架断电或网络故障）。</description>
+    </property>
+
+    <property>
+        <name>node_master</name>
+        <display-name>node_master</display-name>
+        <value>true</value>
+        <description>设置此节点为主节点候选节点，参与选举。</description>
+         <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>node_data</name>
+        <display-name>node_data</display-name>
+        <value>true</value>
+        <description>设置此节点为数据节点，用于存储数据。</description>
+         <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+     <property>
+        <name>node_ingest</name>
+        <display-name>node_ingest</display-name>
+        <value>true</value>
+        <description>设置此节点为预处理节点，能够对文档进行预处理。</description>
+         <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <!-- Paths -->
+    <property>
+        <name>path_data</name>
+        <display-name>Path data</display-name>
+        <value>/elasticsearch/data</value>
+        <description>数据存储路径</description>
+        <final>true</final>
+        <value-attributes>
+            <type>directories</type>
+            <!--<overridable>false</overridable>-->
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+    <property>
+        <name>bootstrap_system_call_filter</name>
+        <display-name>bootstrap_system_call_filter</display-name>
+        <value>true</value>
+        <description>启用系统调用过滤，增加安全性。</description>
+         <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <!-- Memory -->
+    <property>
+        <name>bootstrap_memory_lock</name>
+        <display-name>Bootstrap memory lock</display-name>
+        <value>true</value>
+        <description>锁定内存，避免交换到磁盘，提高性能。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>transport_tcp_compress</name>
+        <display-name>transport_tcp_compress</display-name>
+        <value>true</value>
+        <description>启用TCP传输压缩，减少节点间通信的带宽消耗。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>cluster_routing_allocation_same_shard_host</name>
+        <display-name>cluster_routing_allocation_same_shard_host</display-name>
+        <value>true</value>
+        <description>防止同一主机上的多个分片分配给相同的节点，增加集群的稳定性。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>discovery_zen_ping_timeout</name>
+        <display-name>discovery_zen_ping_timeout</display-name>
+        <value>5s</value>
+        <description>discovery_zen_ping_timeout</description>
+    </property>
+
+    <property>
+        <name>discovery_zen_fd_ping_timeout</name>
+        <display-name>discovery_zen_fd_ping_timeout</display-name>
+        <value>5s</value>
+        <description>discovery_zen_fd_ping_timeout</description>
+    </property>
+
+     <property>
+        <name>action_auto_create_index</name>
+        <display-name>允许自动创建索引</display-name>
+        <value>true</value>
+        <description>允许自动创建索引</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>gateway_recover_after_time</name>
+        <display-name>gateway_recover_after_time</display-name>
+        <value>5m</value>
+        <description>集群恢复的等待时间</description>
+    </property>
+
+    <property>
+        <name>gateway_expected_nodes</name>
+        <display-name>gateway_expected_nodes</display-name>
+        <value>1</value>
+        <description>集群启动时期望加入的节点数</description>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>thread_pool_search_size</name>
+        <display-name>thread_pool_search_size</display-name>
+        <value>100</value>
+        <description>搜索线程池的大小</description>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>elastic_password</name>
+        <display-name>ElasticSearch密码</display-name>
+        <value>123456</value>
+        <value-attributes>
+            <type>password</type>
+        </value-attributes>
+        <description>如果开启安全认证，默认为123456,未开启认证，密码不生效</description>
+    </property>
+
+
+      <property>
+        <name>thread_pool_search_queue_size</name>
+        <display-name>thread_pool_search_queue_size</display-name>
+        <value>1000</value>
+        <description>搜索线程池队列的大小</description>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>elasticsearch_tcp_port</name>
+        <display-name>ElasticSearch TCP 端口</display-name>
+        <value>9300</value>
+        <description>TCP传输服务端口</description>
+        <value-attributes>
+            <type>int</type>
+        </value-attributes>
+    </property>
+
+     <property>
+        <name>http_cors_enabled</name>
+        <display-name>http_cors_enabled</display-name>
+        <value>true</value>
+        <description>这个设置启用或禁用 CORS 支持。将其设置为 true 意味着你允许跨域请求访问你的 Elasticsearch 实例。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+    <property>
+        <name>http_cors_allow_origin</name>
+        <display-name>Http cors allow origin</display-name>
+        <value>*</value>
+        <description>这个设置定义了哪些源被允许访问 Elasticsearch。"*" 是一个通配符，意味着所有源都被允许。这通常在开发环境中是可以的，但在生产环境中可能存在安全风险，因为它允许任何网站都可以向你的 Elasticsearch 实例发起请求。在生产环境中，建议将 http.cors.allow-origin 设置为特定的、受信任的源，而不是使用通配符。</description>
+    </property>
+
+        <!-- Gateway -->
+    <property>
+        <name>gateway_recover_after_nodes</name>
+        <display-name>Gateway recover after nodes</display-name>
+        <value>1</value>
+        <description>集群恢复后需要的节点数</description>
+    </property>
+
+    <!-- Network -->
+    <!--<property>-->
+    <!--<name>network_host</name>-->
+    <!--<value>{{hostname}}</value>-->
+    <!--<description>Set the bind address to a specific IP (IPv4 or IPv6)</description>-->
+    <!--</property>-->
+
+    <property>
+        <name>action_destructive_requires_name</name>
+        <display-name>Action destructive requires name</display-name>
+        <value>false</value>
+        <description>用于增强数据安全性。当这个设置被设置为 true 时，它要求执行任何具有破坏性的操作（例如删除索引）时，必须明确指定索引的名称。这是为了防止误删除或其他破坏性行为。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+     <property>
+        <name>xpack_license_self_generated_type</name>
+        <display-name>xpack_license_self_generated_type</display-name>
+        <value>basic</value>
+        <description>xpack_license_self_generated_type</description>
+    </property>
+
+    <property>
+        <name>xpack_security_enabled</name>
+        <display-name>xpack_security_enabled</display-name>
+        <value>true</value>
+        <description>用于控制是否启用 Elasticsearch 的 X-Pack 安全功能。当这个设置为 true 时，Elasticsearch 会启用身份验证、授权、加密和审计等安全特性。</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+
+    <property>
+        <name>xpack_security_transport_ssl_enabled</name>
+        <display-name>xpack_security_transport_ssl_enabled</display-name>
+        <value>true</value>
+        <description>xpack_security_transport_ssl_enabled</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+
+     <property>
+         <name>xpack_security_transport_ssl_verification_mode</name>
+         <display-name>xpack_security_transport_ssl_verification_mode</display-name>
+         <value>certificate</value>
+         <description>xpack_security_transport_ssl_verification_mode</description>
+         <value-attributes>
+            <empty-value-valid>true</empty-value-valid>
+        </value-attributes>
+    </property>
+     <property>
+        <name>xpack_security_transport_ssl_truststore_path</name>
+        <display-name>xpack_security_transport_ssl_truststore_path</display-name>
+        <value>certs/elastic-certificates.p12</value>
+        <description>xpack_security_transport_ssl_truststore_path</description>
+        <value-attributes>
+            <empty-value-valid>true</empty-value-valid>
+        </value-attributes>
+    </property>
+    <property>
+        <name>xpack_security_transport_ssl_keystore_path</name>
+        <display-name>xpack_security_transport_ssl_keystore_path</display-name>
+        <value>certs/elastic-certificates.p12</value>
+        <description>xpack_security_transport_ssl_keystore_path</description>
+        <value-attributes>
+            <empty-value-valid>true</empty-value-valid>
+        </value-attributes>
+    </property>
+
+
+    <property>
+        <name>elasticsearch_port</name>
+        <display-name>Elasticsearch Http 端口</display-name>
+        <value>9200</value>
+        <description>Elasticsearch port</description>
+    </property>
+
+    <property>
+        <name>content</name>
+        <display-name>Elasticsearch config file template</display-name>
+        <description>This is the template for elasticsearch.yml file</description>
+        <value>
+cluster.name: {{cluster_name}}
+node.name: {{hostname}}
+node.attr.rack: {{node_attr_rack}}
+node.master: {{node_master}}
+node.data: {{node_data}}
+node.ingest: {{node_ingest}}
+path.data: {{path_data}}
+path.logs: {{elastic_log_dir}}
+bootstrap.system_call_filter: {{bootstrap_system_call_filter}}
+transport.tcp.compress: {{transport_tcp_compress}}
+bootstrap.memory_lock: {{bootstrap_memory_lock}}
+cluster.initial_master_nodes:  {{cluster_initial_master_nodes}}
+cluster.routing.allocation.same_shard.host: {{cluster_routing_allocation_same_shard_host}}
+discovery.zen.ping_timeout: {{discovery_zen_ping_timeout}}
+discovery.zen.fd.ping_timeout: {{discovery_zen_fd_ping_timeout}}
+action.auto_create_index: {{action_auto_create_index}}
+gateway.recover_after_time: {{gateway_recover_after_time}}
+gateway.expected_nodes: {{gateway_expected_nodes}}
+thread_pool.search.size: {{thread_pool_search_size}}
+thread_pool.search.queue_size: {{thread_pool_search_queue_size}}
+network.host: {{hostname}}
+http.port: {{elasticsearch_port}}
+transport.tcp.port: {{elasticsearch_tcp_port}}
+http.cors.enabled: {{http_cors_enabled}}
+http.cors.allow-origin: "{{http_cors_allow_origin}}"
+discovery.zen.ping.unicast.hosts: {{discovery_zen_ping_unicast_hosts}}
+discovery.zen.minimum_master_nodes: {{discovery_zen_minimum_master_nodes}}
+gateway.recover_after_nodes: {{gateway_recover_after_nodes}}
+action.destructive_requires_name: {{action_destructive_requires_name}}
+
+xpack.security.enabled: {{xpack_security_enabled}}
+{% if xpack_security_enabled == 'true' %}
+xpack.license.self_generated.type: {{xpack_license_self_generated_type}}
+xpack.security.transport.ssl.enabled: {{xpack_security_transport_ssl_enabled}}
+xpack.security.transport.ssl.verification_mode: {{xpack_security_transport_ssl_verification_mode}}
+xpack.security.transport.ssl.keystore.path: {{xpack_security_transport_ssl_keystore_path}}
+xpack.security.transport.ssl.truststore.path: {{xpack_security_transport_ssl_truststore_path}}
+{% endif %}
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+    <!-- Discovery -->
+    <!--<property>-->
+    <!--<name>discovery_zen_ping_unicast_hosts</name>-->
+    <!--<value></value>-->
+    <!--<description>Pass an initial list of hosts to perform discovery when new node is started</description>-->
+    <!--</property>-->
+
+    <!--<property>-->
+    <!--<name>discovery_zen_minimum_master_nodes</name>-->
+    <!--<value>1</value>-->
+    <!--<description>Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1)</description>-->
+    <!--</property>-->
+
+    <!--<property>-->
+    <!--<name>http.cors.allow-headers</name>-->
+    <!--<value>"Authorization"</value>-->
+    <!--<description>X-pack authorization</description>-->
+    <!--</property>-->
+
+</configuration>

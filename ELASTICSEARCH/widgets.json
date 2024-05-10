@@ -1,0 +1,135 @@
+{
+  "layouts": [
+    {
+      "layout_name": "default_elasticsearch_dashboard",
+      "display_name": "Standard Elasticsearch Dashboard",
+      "section_name": "ELASTICSEARCH_SUMMARY",
+      "widgetLayoutInfo": [
+        {
+          "widget_name": "索引数量",
+          "description": "Elasticsearch集群中的索引数量",
+          "widget_type": "NUMBER",
+          "is_visible": true,
+          "metrics": [
+            {
+              "name": "indices.count",
+              "metric_path": "metrics/indices/count",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            }
+          ],
+          "values": [
+            {
+              "name": "indices count",
+              "value": "${indices.count}"
+            }
+          ]
+        },
+        {
+          "widget_name": "未分配的分片数量",
+          "description": "Elasticsearch集群中未分配的分片数量",
+          "widget_type": "NUMBER",
+          "is_visible": true,
+          "metrics": [
+            {
+              "name": "unassigned.shards",
+              "metric_path": "metrics/unassigned/shards",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            }
+          ],
+          "values": [
+            {
+              "name": "unassigned shards",
+              "value": "${unassigned.shards}"
+            }
+          ],
+          "properties": {
+            "warning_threshold": "0",
+            "error_threshold": "50"
+          }
+        },
+        {
+          "widget_name": "heap使用内存的百分比",
+          "description": "Elasticsearch集群中heap使用内存的百分比",
+          "widget_type": "GAUGE",
+          "is_visible": true,
+          "metrics": [
+            {
+              "name": "heap.used.memory",
+              "metric_path": "metrics/heap/used/memory",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            },
+            {
+              "name": "heap.max.memory",
+              "metric_path": "metrics/heap/max/memory",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            }
+          ],
+          "values": [
+            {
+              "name": "heap used memory",
+              "value": "${heap.used.memory/heap.max.memory}"
+            }
+          ],
+          "properties": {
+            "error_threshold": "0.9",
+            "warning_threshold": "0.75"
+          }
+        },
+        {
+          "widget_name": "Elasticsearch集群节点的存活占比",
+          "description": "Elasticsearch集群节点的存活占比，存活个数/总个数",
+          "widget_type": "TEMPLATE",
+          "is_visible": true,
+          "metrics": [
+            {
+              "name": "nodes.number",
+              "metric_path": "metrics/nodes/number",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            },
+            {
+              "name": "nodes.total",
+              "metric_path": "metrics/nodes/total",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            }
+          ],
+          "values": [
+            {
+              "name": "elasticsearch nodes",
+              "value": "${nodes.number} / ${nodes.total}"
+            }
+          ]
+        },
+        {
+          "widget_name": "Elasticsearch集群节点的内存使用率",
+          "description": "Elasticsearch集群节点的内存使用率",
+          "widget_type": "GRAPH",
+          "is_visible": true,
+          "metrics": [
+            {
+              "name": "nodes.mem.percent._avg",
+              "metric_path": "metrics/nodes/mem/percent._avg",
+              "service_name": "ELASTICSEARCH",
+              "component_name": "ELASTICSEARCH_SERVICE"
+            }
+          ],
+          "values": [
+            {
+              "name": "elasticsearch nodes mem",
+              "value": "${nodes.mem.percent._avg}"
+            }
+          ],
+          "properties": {
+            "graph_type": "LINE",
+            "time_range": "1"
+          }
+        }
+      ]
+    }
+  ]
+}

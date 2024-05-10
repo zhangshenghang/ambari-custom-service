@@ -1,0 +1,48 @@
+{
+  "ELASTICSEARCH_SERVICE": {
+    "Component": [
+      {
+        "type": "ganglia",
+        "metrics": {
+          "default": {
+            "metrics/indices/count": {
+              "metric": "indices.count",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/unassigned/shards": {
+              "metric": "unassigned.shards",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/heap/used/memory": {
+              "metric": "heap.used.memory",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/heap/max/memory": {
+              "metric": "heap.max.memory",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/nodes/number": {
+              "metric": "nodes.number",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/nodes/total": {
+              "metric": "nodes.total",
+              "pointInTime": true,
+              "temporal": true
+            },
+            "metrics/nodes/mem/percent": {
+              "metric": "nodes.mem.percent",
+              "pointInTime": true,
+              "temporal": true
+            }
+          }
+        }
+      }
+    ]
+  }
+}

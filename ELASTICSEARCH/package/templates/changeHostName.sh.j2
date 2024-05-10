@@ -1,0 +1,6 @@
+#!/bin/bash
+elastic_head_base_dir={{elastic_head_base_dir}}
+# modify elasticsearch-head port
+sed -i "s/port:.*/port: {{elasticsearch_head_port}},/g" $elastic_head_base_dir/Gruntfile.js
+# modify elasticsearch-head web ui ip:port
+sed -i "s/http:\/\/.*/http:\/\/{{elasticsearch_service_host}}:{{elasticsearch_port}}\";/g" $elastic_head_base_dir/_site/app.js

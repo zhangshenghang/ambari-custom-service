@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<configuration supports_adding_forbidden="true">
+
+
+    <property>
+        <name>Xms</name>
+        <display-name>ElasticSearch 初始化内存大小</display-name>
+        <value>4g</value>
+        <description>设置 JVM 启动时分配的初始堆内存大小。</description>
+    </property>
+
+    <property>
+        <name>Xmx</name>
+        <display-name>ElasticSearch 最大使用内存大小</display-name>
+        <value>4g</value>
+        <description>设置 JVM 堆内存的最大可用空间。</description>
+    </property>
+
+    <property>
+        <name>content</name>
+        <display-name>Elasticsearch JVM Porperties</display-name>
+        <value>
+################################################################
+## IMPORTANT: JVM heap size
+################################################################
+##
+## The heap size is automatically configured by Elasticsearch
+## based on the available memory in your system and the roles
+## each node is configured to fulfill. If specifying heap is
+## required, it should be done through a file in jvm.options.d,
+## and the min and max should be set to the same value. For
+## example, to set the heap to 4 GB, create a new file in the
+## jvm.options.d directory containing these lines:
+##
+## -Xms4g
+## -Xmx4g
+##
+## See https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html
+## for more information
+##
+################################################################
+-Xms{{Xms}}
+-Xmx{{Xmx}}
+        </value>
+        <description>Elasticsearch pid directory</description>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+    </property>
+
+
+
+</configuration>

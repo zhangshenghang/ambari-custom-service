@@ -1,0 +1,50 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "https",
+      "checks": [
+        {
+          "property": "http.policy",
+          "desired": "HTTPS_ONLY",
+          "site": "cerebro"
+        },
+        {
+          "property": "http.policy",
+          "desired": "HTTPS_ONLY",
+          "site": "kibana"
+        }
+      ]
+    },
+    "links": [
+      {
+        "name": "elasticsearch_cerebro",
+        "label": "Cerebro Web UI",
+        "component_name": "CEREBRO",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "cerebro_port",
+          "http_default_port": "59000",
+          "https_property": "cerebro_port",
+          "https_default_port": "59000",
+          "regex": "^(\\d+)$",
+          "site": "cerebro"
+        }
+      },{
+        "name": "kibana",
+        "label": "Kibana Web UI",
+        "component_name": "KIBANA",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "kibana_web_ui_port",
+          "http_default_port": "5601",
+          "https_property": "kibana_web_ui_port",
+          "https_default_port": "5601",
+          "regex": "^(\\d+)$",
+          "site": "kibana"
+        }
+      }
+    ]
+  }
+}
