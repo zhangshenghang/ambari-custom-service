@@ -46,3 +46,7 @@ chmod +x install_requests.sh
 ```shell
 ./install_requests.sh
 ```
+
+---
+
+工具 elastic_metrics_jar_name.jar 项目为：`ambari-elastic-metrics`

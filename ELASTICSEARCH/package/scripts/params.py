@@ -62,16 +62,16 @@ es_log_file = os.path.join(elastic_log_dir, 'elasticsearch-start.log')
 # metrics_collector_host = default("/clusterHostInfo/metrics_collector_hosts", ['localhost'])[0]
 metrics_collector_host = default("/clusterHostInfo/metrics_collector_hosts", ['localhost'])[0]
 elasticsearch_service_host = default("/clusterHostInfo/elasticsearch_service_hosts", ['localhost'])[0]
-elastic_download = os.path.join('http://', ambari_server_host, 'es/elasticsearch-{0}-linux-x86_64.tar.gz'.format(elastic_version) )
+elastic_download = os.path.join('http://', ambari_server_host, 'ambari-extend/centos7/elasticsearch/elasticsearch-{0}-linux-x86_64.tar.gz'.format(elastic_version) )
 elastic_metrics_jar_name = 'ambari-elastic-metrics.jar'
-elastic_metrics_download = os.path.join('http://', ambari_server_host, 'es/{0}'.format(elastic_metrics_jar_name))
-elastic_cert_download = os.path.join('http://', ambari_server_host, 'es/elastic-certificates.p12')
+elastic_metrics_download = os.path.join('http://', ambari_server_host, 'ambari-extend/centos7/elasticsearch/{0}'.format(elastic_metrics_jar_name))
+elastic_cert_download = os.path.join('http://', ambari_server_host, 'ambari-extend/centos7/elasticsearch/elastic-certificates.p12')
 elastic_password = config['configurations']['elastic-config']['elastic_password']
 # Tool File Dir
 elastic_tool_dir = elastic_base_dir+'/tool'
 
 # ==================== cerebro file content ====================
-cerebro_download = os.path.join('http://', ambari_server_host, 'es/cerebro-0.9.4.tgz')
+cerebro_download = os.path.join('http://', ambari_server_host, 'ambari-extend/centos7/elasticsearch/cerebro-0.9.4.tgz')
 cerebro_base_dir = os.path.join(stack_root, version, 'cerebro')
 cerebro_pid_dir = config['configurations']['cerebro']['pidfile_dir']
 cerebro_pid_file = format("{cerebro_pid_dir}/cerebro.pid")
@@ -239,7 +239,7 @@ zookeeper_session_timeout = config['configurations']['elastic-config']['zookeepe
 # ==================== kibana ====================
 kibana_base_dir = os.path.join(stack_root, version, 'kibana')
 kibana_conf_base_dir = kibana_base_dir + '/config'
-kibana_download = os.path.join('http://', ambari_server_host, 'es/kibana-{0}-linux-x86_64.tar.gz'.format(elastic_version) )
+kibana_download = os.path.join('http://', ambari_server_host, 'ambari-extend/centos7/elasticsearch/kibana-{0}-linux-x86_64.tar.gz'.format(elastic_version) )
 kibana_log_dir = config['configurations']['kibana']['kibana_log_dir'].rstrip("/")
 kibana_pid_dir = config['configurations']['kibana']['kibana_pid_dir'].rstrip("/")
 kibana_pid_file = format("{kibana_pid_dir}/kibana.pid")

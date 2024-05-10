@@ -158,6 +158,29 @@ class Master(Script):
             'ps -ef | grep elasticsearch/config | grep -v grep | awk \'{print $2}\' > ' + params.elastic_pid_file,
             user=params.elastic_user)
 
+        sleep(30)
+
+        if params.xpack_security_enabled == 'true':
+            if params.elasticsearch_service_host == params.hostname:
+                Logger.info("当前节点为首个节点，将在当前节点初始化密码")
+                file_exist = self.fileExists(params.elastic_password_init_file)
+                if file_exist:
+                    Logger.info("密码已经初始化完成,无需再次初始化")
+                else:
+                    if params.elasticsearch_service_host == params.hostname:
+                        print "当前为主机节点，初始化密码"
+                        Logger.info("ElasticSearch password init")
+                        self.password_init(env)
+                        # 创建文件说明密码已经初始化过
+                        File(params.elastic_password_init_file,
+                             owner=params.elastic_user,
+                             group=params.user_group,
+                             content='true')
+                    else:
+                        print "当前非第一个节点不进行密码初始化"
+            else:
+                Logger.info("当前节点非密码管理节点")
+
         Directory([format("{elastic_tool_dir}")], mode=0755, cd_access='a', owner=params.elastic_user,
                   group=params.user_group, create_parents=True )
         metrics_jar_exist = self.fileExists(format('{elastic_tool_dir}/ambari-elastic-metrics.jar'))
@@ -201,28 +224,7 @@ class Master(Script):
         Logger.info(cmd)
         Execute(cmd, user=params.elastic_user)
 
-        sleep(30)
 
-        if params.xpack_security_enabled == 'true':
-            if params.elasticsearch_service_host == params.hostname:
-                Logger.info("当前节点为首个节点，将在当前节点初始化密码")
-                file_exist = self.fileExists(params.elastic_password_init_file)
-                if file_exist:
-                    Logger.info("密码已经初始化完成,无需再次初始化")
-                else:
-                    if params.elasticsearch_service_host == params.hostname:
-                        print "当前为主机节点，初始化密码"
-                        Logger.info("ElasticSearch password init")
-                        self.password_init(env)
-                        # 创建文件说明密码已经初始化过
-                        File(params.elastic_password_init_file,
-                             owner=params.elastic_user,
-                             group=params.user_group,
-                             content='true')
-                    else:
-                        print "当前非第一个节点不进行密码初始化"
-            else:
-                Logger.info("当前节点非密码管理节点")
 
     # 根据PID查询进程是否存在
     def process_exist(self, pid):
