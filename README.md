@@ -16,6 +16,7 @@
 
 
 ## 安装包位置
+
 所有自定义服务安装依赖包统一放在:`ambari-extend/centos7`目录下，即`/var/www/html/ambari-extend/centos7`
 |服务|安装包位置|
 |---|---|
@@ -23,3 +24,8 @@
 |DORIS|/var/www/html/ambari-extend/centos7/doris/|
 |HUGEGRAPH|/var/www/html/ambari-extend/centos7/hugegraph/|
 |CLICKHOUSE|/var/www/html/ambari-extend/centos7/clickhouse/|
+
+### 安装包文件下载
+|Tag|下载地址|
+|---|---|
+|0.1|链接: https://pan.baidu.com/s/1Q9SDajAzT-0GGAvfhqL55A?pwd=93hn 提取码: 93hn|

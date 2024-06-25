@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>hive.connector.enable</name>
+        <display-name>是否启用Hive连接器</display-name>
+        <value>false</value>
+        <description>是否启用Hive连接器</description>
+        <value-attributes>
+            <type>boolean</type>
+        </value-attributes>
+    </property>
+    <property>
+        <name>connector.name</name>
+        <display-name>connector.name</display-name>
+        <value>hive-hadoop2</value>
+        <description>连接器名称,固定值不要修改</description>
+        <value-attributes>
+          <editable-only-at-install>true</editable-only-at-install>
+        </value-attributes>
+    </property>
+    <property>
+        <name>hive.metastore.uri</name>
+        <display-name>Hive Metastore URI</display-name>
+        <value></value>
+        <description>Hive Metastore URI,默认取当前Ambari集群的Hive Metastore URI</description>
+        <value-attributes>
+          <editable-only-at-install>true</editable-only-at-install>
+        </value-attributes>
+    </property>
+
+</configuration>

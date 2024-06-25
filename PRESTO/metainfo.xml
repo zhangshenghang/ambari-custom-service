@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <name>PRESTO</name>
+            <displayName>Presto</displayName>
+            <comment>Presto 是一个分布式 SQL 查询引擎，旨在查询分布在一个或多个异构数据源上的大型数据集。</comment>
+            <version>0.287</version>
+            <components>
+                <component>
+                    <name>COORDINATOR</name>
+                    <displayName>Presto Coordinator</displayName>
+                    <category>MASTER</category>
+                    <cardinality>1</cardinality>
+                    <timelineAppid>presto</timelineAppid>
+                    <commandScript>
+                        <script>scripts/presto_coordinator.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                </component>
+                <component>
+                    <name>WORKER</name>
+                    <displayName>Presto Worker</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>1</cardinality>
+                    <timelineAppid>presto</timelineAppid>
+                    <commandScript>
+                        <script>scripts/presto_worker.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1800</timeout>
+                    </commandScript>
+                </component>
+            </components>
+
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>1800</timeout>
+            </commandScript>
+
+
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                </osSpecific>
+            </osSpecifics>
+
+            <themes-dir>themes</themes-dir>
+            <themes>
+                <theme>
+                    <fileName>theme_elasticsearch_version_1.json</fileName>
+                    <default>true</default>
+                </theme>
+            </themes>
+
+            <!--            <quickLinksConfigurations-dir>quicklinks-mapred</quickLinksConfigurations-dir>-->
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <fileName>quicklinks-hugegraph.json</fileName>
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
+
+            <!--需要前置安装的服务，随便举的例子，假设Elasticsearch服务依赖zookeeper服务-->
+            <requiredServices>
+                <service>ZOOKEEPER</service>
+                <service>HDFS</service>
+            </requiredServices>
+        </service>
+    </services>
+</metainfo>

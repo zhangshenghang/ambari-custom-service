@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>node.environment</name>
+        <value>production</value>
+        <display-name>Node Environment</display-name>
+        <description>The name of the environment. All Presto nodes in a cluster must have the same environment name.</description>
+    </property>
+    <property>
+        <name>node.data-dir</name>
+        <value>/data/presto</value>
+        <display-name>Node Data Dir</display-name>
+        <description>The name of the environment. All Presto nodes in a cluster must have the same environment name.</description>
+    </property>
+  <property>
+        <name>jvm_config</name>
+        <display-name>Hubble Service config file template</display-name>
+        <description>This is the template for hugegraph.properties file</description>
+        <value>
+-server
+-Xmx16G
+-XX:+UseG1GC
+-XX:G1HeapRegionSize=32M
+-XX:+UseGCOverheadLimit
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+  <property>
+        <name>log_config</name>
+        <display-name>Hubble Service config file template</display-name>
+        <description>This is the template for hugegraph.properties file</description>
+        <value>
+com.facebook.presto=INFO
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+</configuration>

@@ -1,0 +1,15 @@
+{
+  "name": "default",
+  "description": "Default theme for PRESTO service",
+  "configuration": {
+    "placement": {
+      "configuration-layout": "default"
+    },
+    "widgets": [
+
+    ],
+    "layouts": [
+
+    ]
+  }
+}

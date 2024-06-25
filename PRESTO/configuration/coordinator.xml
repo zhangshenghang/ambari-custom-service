@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <property>
+        <name>config</name>
+        <display-name>Hubble Service config file template</display-name>
+        <description>This is the template for hugegraph.properties file</description>
+        <value>
+coordinator=true
+node-scheduler.include-coordinator=false
+http-server.http.port=8881
+query.max-memory=50GB
+discovery-server.enabled=true
+discovery.uri=http://{{coordinator_host}}:8881
+        </value>
+        <value-attributes>
+            <type>content</type>
+            <show-property-name>false</show-property-name>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+
+
+</configuration>
