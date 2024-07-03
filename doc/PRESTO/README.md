@@ -1,3 +1,5 @@
+# 待办事项
+- [ ] 自动获取当前Ambari集群的Hive Meta配置
 # 开发联调
 ## 本地源码上传到Ambari Server服务器
 
